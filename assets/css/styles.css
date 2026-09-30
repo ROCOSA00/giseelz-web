@@ -230,21 +230,32 @@ p { margin: 0 0 1em; }
   clip-path: circle(160% at calc(100% - var(--gutter) - 22px) calc(var(--head-h) / 2));
   transition: clip-path .6s var(--ease), visibility 0s;
 }
-.menu ol { list-style: none; margin: 0; padding: 0; counter-reset: m; }
-.menu li { counter-increment: m; }
-.menu a {
-  display: flex; align-items: baseline; gap: 12px;
-  font: 400 clamp(2.5rem, 12.5vw, 5rem)/1.02 var(--f-display);
+.menu nav ol { list-style: none; margin: 0; padding: 0; counter-reset: m; border-top: 2px solid var(--ink); }
+.menu nav li { counter-increment: m; border-bottom: 2px solid var(--ink); }
+.menu nav a {
+  display: flex; align-items: center; gap: 14px;
+  padding: 12px 0 10px;
+  font: 400 clamp(1.9rem, 9vw, 3.4rem)/1 var(--f-display);
   text-transform: uppercase; text-decoration: none;
+  transition: color .2s, transform .3s var(--ease);
 }
-.menu a::before {
-  content: "0" counter(m);
-  font: 400 .9rem/1 var(--f-hand); letter-spacing: 0; transform: translateY(-.9em);
+.menu nav a::before {
+  content: "0" counter(m); flex: none; width: 1.9rem;
+  font: 400 1rem/1 var(--f-hand); letter-spacing: 0;
 }
-.menu li:nth-child(even) a { color: transparent; -webkit-text-stroke: 1.5px var(--ink); }
-.menu li:nth-child(even) a::before { color: var(--ink); -webkit-text-stroke: 0; }
-.menu a:hover, .menu a:focus-visible { color: var(--white); -webkit-text-stroke-color: var(--white); }
-.menu .socials .social { background: var(--ink); color: var(--pink); }
+.menu nav a::after {
+  content: ""; flex: none; margin-left: auto; width: .42em; height: .42em;
+  background: currentColor;
+  clip-path: polygon(50% 0, 61% 39%, 100% 50%, 61% 61%, 50% 100%, 39% 61%, 0 50%, 39% 39%);
+  transform: scale(0) rotate(-90deg); transition: transform .3s var(--ease);
+}
+.menu nav li:last-child a { color: var(--white); }
+.menu nav a:hover, .menu nav a:focus-visible { color: var(--white); transform: translateX(6px); }
+.menu nav a:hover::after, .menu nav a:focus-visible::after { transform: none; }
+.menu .socials { gap: 10px; }
+.menu .socials .social { width: 46px; height: 46px; background: var(--ink); color: var(--pink); }
+.menu .socials .social .icon { width: 21px; height: 21px; }
+.menu-open .brand img { filter: brightness(0); }
 
 /* ---------- 1. Hero ---------- */
 .hero {
