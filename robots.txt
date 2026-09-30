@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://rocosa00.github.io/giseelz-web/sitemap.xml
