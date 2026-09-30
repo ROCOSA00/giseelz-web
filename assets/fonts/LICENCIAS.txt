@@ -1,0 +1,7 @@
+Tipografías incluidas (todas con licencia libre SIL Open Font License 1.1, uso comercial permitido):
+
+- anton.woff2             Anton, de Vernon Adams            https://fonts.google.com/specimen/Anton
+- inter-var.woff2         Inter, de Rasmus Andersson        https://fonts.google.com/specimen/Inter
+- permanent-marker.woff2  Permanent Marker, de Font Diner   https://fonts.google.com/specimen/Permanent+Marker
+
+Iconos de redes sociales: Simple Icons (CC0) https://simpleicons.org
