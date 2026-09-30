@@ -116,7 +116,10 @@ Puedes poner tantos como quieras. Los reproductores no se cargan hasta que algui
 ### Vídeos (Reels, TikTok, YouTube)
 Apartado **`10. VÍDEOS`**. Igual que la música: pega el enlace del Reel de Instagram, del TikTok o del vídeo/Short de YouTube.
 
-Mientras la lista esté vacía, la sección muestra dos tarjetas que llevan a sus **reels de Instagram** y a su **TikTok**. En cuanto añadas el primer vídeo, se sustituyen por los vídeos.
+- Los **reels de Instagram** se abren en Instagram (en el móvil, directamente en la app): incrustados en la web piden iniciar sesión y se ven cortados. Los de **TikTok y YouTube** se reproducen dentro de la web.
+- Puedes copiar el enlace tal cual desde "Compartir → Copiar enlace"; lo que va detrás del `?` sobra, pero no molesta.
+- Ahora mismo hay 4 reels, con fotos del presskit como portada. Si quieres otra portada, pon en `portada` la ruta de una imagen vertical.
+- Si la lista se deja vacía, la sección muestra dos tarjetas que llevan a sus **reels de Instagram** y a su **TikTok**.
 
 - En **TikTok**, usa el enlace largo que contiene `/video/` (el que ves al abrir el vídeo en el ordenador), no el corto `vm.tiktok.com`.
 - `portada` es opcional: una imagen para la tarjeta antes de darle al play (en YouTube se coge sola).
@@ -232,10 +235,9 @@ La web está publicada en **https://giseelz-web.vercel.app/** y Vercel está con
 
 ## 8. Lista de cosas pendientes
 
-Ya está todo lo que venía en el presskit, más la primera fecha, SoundCloud y TikTok. Falta:
+Ya está todo lo que venía en el presskit, más la primera fecha, SoundCloud, TikTok y 4 reels. Falta:
 
 - [ ] Ir añadiendo las próximas fechas (`FECHAS`)
-- [ ] Vídeos: enlaces a reels o TikToks de fiesta o cabina (`VIDEOS`). Mientras tanto, la sección enlaza a su Instagram y a su TikTok.
 - [ ] Nombre de cada canción de Spotify, si se quiere mostrar en vez de "Selección 01, 02, 03" (`MUSICA`)
 - [ ] Mixcloud, perfil de Spotify o YouTube, solo si los tiene (`REDES`)
 - [ ] Enlace a las fotos originales en alta resolución (`PRESS.fotos`)
