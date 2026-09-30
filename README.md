@@ -17,7 +17,7 @@ No hace falta tocar nada más ni saber programar.
 3. [Cambiar enlaces: email, WhatsApp, redes, música y vídeos](#3-cambiar-enlaces)
 4. [Cambiar fotos, logo y presskit](#4-cambiar-fotos-logo-y-presskit)
 5. [Cambiar textos: bio, frase de portada, logros, clubs y estilos](#5-cambiar-textos)
-6. [Publicar la web gratis con GitHub Pages](#6-publicar-la-web-gratis-con-github-pages)
+6. [Publicación en Vercel](#6-publicación-en-vercel)
 7. [Si algo se rompe](#7-si-algo-se-rompe)
 8. [Lista de cosas pendientes](#8-lista-de-cosas-pendientes)
 9. [Estructura de archivos](#9-estructura-de-archivos)
@@ -32,7 +32,7 @@ Todo se puede hacer desde la web de GitHub, sin instalar nada:
 2. Pulsa el **lápiz ✏️** (arriba a la derecha, "Edit this file").
 3. Cambia lo que necesites. **Solo lo que va entre comillas `"así"`.**
 4. Pulsa el botón verde **"Commit changes…"** y otra vez **"Commit changes"**.
-5. Espera 1-2 minutos y recarga la web. Ya está.
+5. Vercel publica el cambio solo en 1 minuto más o menos. Recarga la web y ya está.
 
 Tres reglas de oro para no romper nada:
 
@@ -74,7 +74,7 @@ const FECHAS = [
 - **No hace falta borrar las fechas pasadas**: al día siguiente del bolo se mueven solas a "Fechas pasadas", que sale plegado y atenuado debajo.
 - Si escribes mal una fecha (por ejemplo `14/11/2026`), la web te avisa con una etiqueta `[PENDIENTE]` diciendo cuál es.
 - Si no hay ninguna fecha próxima, sale un bloque de "Nuevas fechas muy pronto" con un botón a Booking.
-- **Truco para probar**: añade `?demo` al final de la dirección de la web (por ejemplo `https://rocosa00.github.io/giseelz-web/?demo`) y verás cómo queda con fechas de ejemplo, sin tocar nada.
+- **Truco para probar**: añade `?demo` al final de la dirección de la web (por ejemplo `https://giseelz-web.vercel.app/?demo`) y verás cómo queda con fechas de ejemplo, sin tocar nada.
 
 ---
 
@@ -201,20 +201,17 @@ Los textos fijos de la web (menú, botones, formulario…) ya están traducidos 
 
 ---
 
-## 6. Publicar la web gratis con GitHub Pages
+## 6. Publicación en Vercel
 
-Solo hay que hacerlo **una vez**, después de aceptar (fusionar) el Pull Request en `main`:
+La web está publicada en **https://giseelz-web.vercel.app/** y Vercel está conectado a este repositorio:
 
-1. En el repositorio, entra en **Settings** (Configuración) → **Pages** (menú de la izquierda).
-2. En **Build and deployment → Source**, elige **Deploy from a branch**.
-3. En **Branch**, elige **`main`** y la carpeta **`/ (root)`** → **Save**.
-4. En 1-2 minutos la web estará en: **https://rocosa00.github.io/giseelz-web/**
-
-A partir de ahí, cada cambio que guardes en `main` se publica solo en 1-2 minutos.
+- **Cada cambio que se guarda en `main` se publica solo**, en un minuto más o menos. No hay que hacer nada más.
+- Cuando se abre un Pull Request, Vercel crea una **vista previa** con su propio enlace (sale en el PR). Así se puede ver cómo queda antes de fusionarlo.
+- No hace falta ninguna configuración especial: es una web estática, sin paso de compilación (en Vercel, *Framework Preset: Other*).
 
 ### ¿Dominio propio? (por ejemplo `giselz.com`)
-1. Cómpralo en cualquier registrador y sigue la guía de GitHub: *Settings → Pages → Custom domain*.
-2. En `index.html`, `robots.txt` y `sitemap.xml`, cambia `https://rocosa00.github.io/giseelz-web/` por tu dominio nuevo (usa "buscar y reemplazar"). Así la vista previa en WhatsApp y Google apuntan bien.
+1. Cómpralo en cualquier registrador y añádelo en Vercel: proyecto → **Settings → Domains → Add**, y sigue los pasos que te indica.
+2. En `index.html`, `robots.txt` y `sitemap.xml`, cambia `https://giseelz-web.vercel.app/` por tu dominio nuevo (usa "buscar y reemplazar"). Así la vista previa en WhatsApp y Google apuntan bien.
 
 ---
 
@@ -231,9 +228,7 @@ A partir de ahí, cada cambio que guardes en `main` se publica solo en 1-2 minut
 
 ## 8. Lista de cosas pendientes
 
-Todo esto sale en la web como etiqueta `[PENDIENTE]` hasta que se rellene:
-
-Ya está todo lo que venía en el presskit. Falta lo que el presskit no trae:
+Ya está todo lo que venía en el presskit. Falta lo que el presskit no trae (en la web sale como etiqueta `[PENDIENTE]` hasta que se rellena):
 
 - [ ] Próximas fechas (`FECHAS`)
 - [ ] Vídeos: enlaces a Reels, TikToks o YouTube (`VIDEOS`)
@@ -242,7 +237,6 @@ Ya está todo lo que venía en el presskit. Falta lo que el presskit no trae:
 - [ ] Resto de redes: TikTok, SoundCloud, Mixcloud, Spotify, YouTube (`REDES`)
 - [ ] Enlace a las fotos originales en alta resolución (`PRESS.fotos`)
 - [ ] Fotos originales para sustituir las de la galería que venían como captura de Instagram (`giselz-02`, `04` y `05`)
-- [ ] Confirmar que el 652 93 27 22 tiene WhatsApp (el presskit lo da como teléfono)
 - [ ] Si la lista de estilos cambia, actualizar también las descripciones de `index.html` (las líneas con `description`), que son las que salen en Google y al compartir
 
 ---
@@ -260,7 +254,7 @@ assets/
   presskit/             El presskit en PDF para descargar (GISELZ-presskit.pdf)
   fonts/                Tipografías (Anton, Inter y Permanent Marker, licencia libre)
 robots.txt, sitemap.xml Para Google
-.nojekyll               Necesario para GitHub Pages (no borrar)
+.nojekyll               Solo se usa si algún día se publica en GitHub Pages (no molesta)
 ```
 
 ### Detalles técnicos (para quien programe)
