@@ -1,5 +1,5 @@
 /* ==========================================================================
-   GISEEELZ · lógica de la web
+   GISELZ · lógica de la web
    No hace falta tocar este archivo: el contenido se edita en assets/js/datos.js
    ========================================================================== */
 (function () {
@@ -66,6 +66,7 @@
     logros: read(() => LOGROS, []),
     generos: read(() => GENEROS, ['Open format']),
     clubs: read(() => CLUBS, []),
+    eventos: read(() => (typeof EVENTOS === 'undefined' ? [] : EVENTOS), []),
     musica: read(() => MUSICA, []),
     videos: read(() => VIDEOS, []),
     galeria: read(() => GALERIA, []),
@@ -87,17 +88,17 @@
       'nav.bio': 'Bio', 'nav.musica': 'Música', 'nav.fechas': 'Fechas', 'nav.clubs': 'Clubs',
       'nav.galeria': 'Galería', 'nav.videos': 'Vídeos', 'nav.press': 'Press', 'nav.booking': 'Booking',
       'menu.open': 'Abrir menú', 'menu.close': 'Cerrar menú',
-      'hero.kicker': 'DJ · Open format', 'hero.listen': 'Escuchar', 'hero.down': 'Bajar a la bio',
+      'hero.kicker': 'DJ · Open format · BCN', 'hero.listen': 'Escuchar', 'hero.down': 'Bajar a la bio',
       'genres.sr': 'Estilos: ',
       'bio.kicker': 'Quién es', 'bio.title': 'Bio', 'bio.more': 'Leer más', 'bio.less': 'Leer menos', 'bio.highlights': 'Highlights',
       'music.kicker': 'Dale al play', 'music.title': 'Música', 'music.play': 'Reproducir', 'music.more': 'Más música en',
-      'music.open': 'Escuchar en',
+      'music.open': 'Escuchar en', 'music.sets': 'Escucha mis sets',
       'dates.kicker': 'En directo', 'dates.title': 'Fechas', 'dates.upcoming': 'Próximas fechas', 'dates.past': 'Fechas pasadas',
       'dates.tickets': 'Entradas', 'dates.soldout': 'Sold out', 'dates.soon': 'Info pronto',
-      'dates.empty.title': 'Nuevas fechas muy pronto', 'dates.empty.text': '¿Quieres a GISEEELZ en tu club, festival o evento?',
+      'dates.empty.title': 'Nuevas fechas muy pronto', 'dates.empty.text': '¿Quieres a GISELZ en tu club, festival o evento?',
       'dates.empty.cta': 'Pide fecha', 'dates.demo': 'Modo demo · datos de ejemplo, no son fechas reales',
       'dates.demo.city': 'Ciudad de ejemplo', 'dates.demo.venue': 'Sala de ejemplo',
-      'clubs.kicker': 'Ha pinchado en', 'clubs.title': 'Clubs',
+      'clubs.kicker': 'Ha pinchado en', 'clubs.title': 'Clubs', 'clubs.more': 'Fiestas, eventos y más',
       'gallery.kicker': 'Fotos', 'gallery.title': 'Galería', 'gallery.open': 'Ampliar foto',
       'lb.close': 'Cerrar', 'lb.prev': 'Foto anterior', 'lb.next': 'Foto siguiente',
       'videos.kicker': 'En acción', 'videos.title': 'Vídeos', 'videos.play': 'Ver vídeo', 'videos.open': 'Ver en',
@@ -113,8 +114,8 @@
       'form.sendWa': 'Enviar por WhatsApp', 'form.sendMail': 'Enviar por email',
       'form.note': 'Se abrirá tu WhatsApp o tu app de correo con el mensaje listo para enviar.',
       'form.ok': '¡Listo! Ya solo te queda darle a enviar.',
-      'form.off': 'Este canal todavía no está activo. Mientras tanto, escribe por Instagram a @GISEEELZ.',
-      'form.hello': '¡Hola GISEEELZ! Te escribo desde tu web por un booking:',
+      'form.off': 'Este canal todavía no está activo. Mientras tanto, escribe por Instagram a @giseeelz.',
+      'form.hello': '¡Hola GISELZ! Te escribo desde tu web por un booking:',
       'form.subject': 'Booking',
       'contact.email': 'Email', 'contact.wa': 'WhatsApp', 'contact.ig': 'Instagram',
       'footer.top': 'Volver arriba', 'footer.rights': 'Todos los derechos reservados',
@@ -124,17 +125,17 @@
       'nav.bio': 'Bio', 'nav.musica': 'Music', 'nav.fechas': 'Dates', 'nav.clubs': 'Clubs',
       'nav.galeria': 'Gallery', 'nav.videos': 'Videos', 'nav.press': 'Press', 'nav.booking': 'Booking',
       'menu.open': 'Open menu', 'menu.close': 'Close menu',
-      'hero.kicker': 'DJ · Open format', 'hero.listen': 'Listen', 'hero.down': 'Scroll to bio',
+      'hero.kicker': 'DJ · Open format · BCN', 'hero.listen': 'Listen', 'hero.down': 'Scroll to bio',
       'genres.sr': 'Styles: ',
       'bio.kicker': 'Meet', 'bio.title': 'Bio', 'bio.more': 'Read more', 'bio.less': 'Read less', 'bio.highlights': 'Highlights',
       'music.kicker': 'Press play', 'music.title': 'Music', 'music.play': 'Play', 'music.more': 'More music on',
-      'music.open': 'Listen on',
+      'music.open': 'Listen on', 'music.sets': 'Listen to my sets',
       'dates.kicker': 'Live', 'dates.title': 'Dates', 'dates.upcoming': 'Upcoming dates', 'dates.past': 'Past dates',
       'dates.tickets': 'Tickets', 'dates.soldout': 'Sold out', 'dates.soon': 'Info soon',
-      'dates.empty.title': 'New dates coming soon', 'dates.empty.text': 'Want GISEEELZ at your club, festival or event?',
+      'dates.empty.title': 'New dates coming soon', 'dates.empty.text': 'Want GISELZ at your club, festival or event?',
       'dates.empty.cta': 'Request a date', 'dates.demo': 'Demo mode · sample data, not real dates',
       'dates.demo.city': 'Sample city', 'dates.demo.venue': 'Sample venue',
-      'clubs.kicker': 'Played at', 'clubs.title': 'Clubs',
+      'clubs.kicker': 'Played at', 'clubs.title': 'Clubs', 'clubs.more': 'Parties, events & more',
       'gallery.kicker': 'Photos', 'gallery.title': 'Gallery', 'gallery.open': 'Enlarge photo',
       'lb.close': 'Close', 'lb.prev': 'Previous photo', 'lb.next': 'Next photo',
       'videos.kicker': 'In action', 'videos.title': 'Videos', 'videos.play': 'Play video', 'videos.open': 'Watch on',
@@ -150,8 +151,8 @@
       'form.sendWa': 'Send via WhatsApp', 'form.sendMail': 'Send via email',
       'form.note': 'Your WhatsApp or email app will open with the message ready to send.',
       'form.ok': 'Done! Just hit send.',
-      'form.off': 'This channel isn’t active yet. Meanwhile, DM @GISEEELZ on Instagram.',
-      'form.hello': 'Hi GISEEELZ! Booking enquiry from your website:',
+      'form.off': 'This channel isn’t active yet. Meanwhile, DM @giseeelz on Instagram.',
+      'form.hello': 'Hi GISELZ! Booking enquiry from your website:',
       'form.subject': 'Booking',
       'contact.email': 'Email', 'contact.wa': 'WhatsApp', 'contact.ig': 'Instagram',
       'footer.top': 'Back to top', 'footer.rights': 'All rights reserved',
@@ -159,7 +160,7 @@
   };
 
   function storedLang() {
-    try { return localStorage.getItem('giseeelz-lang'); } catch (e) { return null; }
+    try { return localStorage.getItem('giselz-lang'); } catch (e) { return null; }
   }
   function detectLang() {
     const forced = params.get('lang');
@@ -174,6 +175,12 @@
   const t = (key) => (UI[lang] && UI[lang][key]) || UI.es[key] || key;
   const tx = (v) => (v == null ? '' : typeof v === 'string' || Array.isArray(v) ? v : v[lang] != null ? v[lang] : v.es || '');
   const locale = () => (lang === 'es' ? 'es-ES' : 'en-GB');
+  // Textos bilingües que viven dentro de tarjetas ya pintadas (se actualizan al cambiar de idioma)
+  const langHooks = [];
+  function bindText(node, value) {
+    if (value && typeof value === 'object' && !Array.isArray(value)) langHooks.push(() => { node.textContent = tx(value); });
+    return node;
+  }
 
   function applyLang() {
     document.documentElement.lang = lang;
@@ -189,6 +196,7 @@
     });
     $$('.lang button').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.lang === lang)));
     $('.burger').setAttribute('aria-label', t(document.body.classList.contains('menu-open') ? 'menu.close' : 'menu.open'));
+    langHooks.forEach((fn) => fn());
     renderClaim();
     renderGenresSr();
     renderBio();
@@ -198,7 +206,7 @@
   $$('.lang button').forEach((b) =>
     b.addEventListener('click', () => {
       lang = b.dataset.lang;
-      try { localStorage.setItem('giseeelz-lang', lang); } catch (e) { /* sin almacenamiento: no pasa nada */ }
+      try { localStorage.setItem('giselz-lang', lang); } catch (e) { /* sin almacenamiento: no pasa nada */ }
       applyLang();
     })
   );
@@ -232,29 +240,35 @@
   });
 
   /* ---------- 1. Hero ---------- */
+  // La portada ya viene en el HTML (carga más rápido); aquí se ajusta a lo que diga datos.js
+  function swapSrc(node, src) {
+    if (node.getAttribute('src') === src) return;
+    node.removeAttribute('width');
+    node.removeAttribute('height');
+    node.src = src;
+  }
   function renderHero() {
     const img = D.imagenes || {};
     const hero = $('.hero');
-    const media = $('.hero__media');
+    const box = $('.hero__photo');
     const useVideo = img.heroVideo && !reduceMotion && !saveData;
-    if (useVideo || img.hero) {
-      const box = el('div', { class: 'hero__photo duo' });
-      if (useVideo) {
-        const v = el('video', { autoplay: true, muted: true, loop: true, playsinline: true, preload: 'metadata', poster: img.hero || null });
-        v.muted = true;
-        v.append(el('source', { src: img.heroVideo, type: 'video/mp4' }));
-        box.append(v);
-      } else {
-        box.append(el('img', { src: img.hero, alt: '', fetchpriority: 'high', decoding: 'async' }));
-      }
-      media.prepend(box);
-      hero.classList.add('has-photo');
+    if (useVideo) {
+      const v = el('video', { autoplay: true, muted: true, loop: true, playsinline: true, preload: 'metadata', poster: img.hero || null });
+      v.muted = true;
+      v.append(el('source', { src: img.heroVideo, type: 'video/mp4' }));
+      box.replaceChildren(v);
+    } else if (img.hero) {
+      swapSrc($('img', box), img.hero);
+    } else if (img.hero === '') {
+      // Solo se quita si se ha dejado vacío a propósito (si datos.js falla, se queda la del HTML)
+      box.remove();
+      hero.classList.remove('has-photo');
     }
-    if (img.logo) {
-      hero.classList.add('has-logo');
-      $('.hero__title').prepend(el('img', { class: 'hero__logo', src: img.logo, alt: '' }));
-      const brand = $('.brand');
-      brand.replaceChildren(el('img', { src: img.logo, alt: 'GISEEELZ', width: 160, height: 38 }));
+    const logos = [$('.hero__logo'), $('.brand img')].filter(Boolean);
+    if (img.logo) logos.forEach((l) => swapSrc(l, img.logo));
+    else if (img.logo === '') {
+      logos.forEach((l) => l.remove());
+      hero.classList.remove('has-logo');
     }
   }
   function renderClaim() {
@@ -289,7 +303,7 @@
     const fig = $('#bio-photo');
     const src = (D.imagenes || {}).bio;
     const media = src
-      ? el('div', { class: 'duo duo--hover' }, el('img', { src, alt: 'GISEEELZ', loading: 'lazy', decoding: 'async' }))
+      ? el('div', { class: 'duo duo--hover' }, el('img', { src, alt: 'GISELZ', loading: 'lazy', decoding: 'async' }))
       : el('div', { class: 'placeholder' }, pendingTag('', 'foto para la bio (del presskit)'));
     fig.replaceChildren(el('span', { class: 'tape-strip', 'aria-hidden': 'true' }), media, el('span', { class: 'sticker', 'aria-hidden': 'true' }, 'open format'));
   }
@@ -308,8 +322,12 @@
     const list = $('#logros');
     const logros = (D.logros || []).filter(Boolean);
     list.replaceChildren(
-      ...(logros.length ? logros : ['']).map((l) => el('li', {}, star(), textOr(l, 'logros del presskit')))
+      ...(logros.length ? logros : ['']).map((l) => el('li', {}, star(), textOr(tx(l), 'logros del presskit')))
     );
+
+    const quote = tx(tt.cita);
+    $('#bio-quote').hidden = !quote;
+    $('#bio-quote-text').textContent = quote || '';
   }
   $('#bio-toggle').addEventListener('click', (e) => {
     const btn = e.currentTarget;
@@ -327,6 +345,7 @@
     youtube: { name: 'YouTube', icon: 'youtube' },
     instagram: { name: 'Instagram', icon: 'instagram' },
     tiktok: { name: 'TikTok', icon: 'tiktok' },
+    linktree: { name: 'Linktree', icon: 'linktree' },
   };
   function youtubeId(u) {
     if (u.hostname.endsWith('youtu.be')) return u.pathname.slice(1).split('/')[0];
@@ -397,26 +416,27 @@
           el('span', { class: 'player__btn', 'aria-hidden': 'true' }, icon('play')),
           el('span', { class: 'player__meta' },
             el('span', { class: 'player__platform' }, 'SoundCloud · Mixcloud · Spotify · YouTube'),
-            el('span', { class: 'player__title' }, textOr(m.titulo, 'nombre del mix'))),
+            el('span', { class: 'player__title' }, textOr(tx(m.titulo), 'nombre del mix'))),
           el('p', { class: 'player__hint' }, pendingTag('', 'pega el enlace del mix en assets/js/datos.js → MUSICA'))));
         return card;
       }
       const info = parseMedia(m.url) || { link: m.url };
       const p = PLATFORM[info.platform] || { name: 'Link', icon: 'arrow' };
-      const title = isPending(m.titulo) ? p.name : m.titulo;
+      const title = isPending(tx(m.titulo)) ? p.name : tx(m.titulo);
+      const titleNode = () => bindText(el('span', { class: 'player__title' }, title), isPending(tx(m.titulo)) ? null : m.titulo);
       if (!info.src) {
         card.append(el('a', Object.assign({ class: 'player__facade', href: info.link }, extAttrs(info.link)),
           el('span', { class: 'player__btn', 'aria-hidden': 'true' }, icon('arrow')),
           el('span', { class: 'player__meta' },
             el('span', { class: 'player__platform' }, icon(p.icon), `${t('music.open')} ${p.name}`),
-            el('span', { class: 'player__title' }, title))));
+            titleNode())));
         return card;
       }
       const facade = el('button', { class: 'player__facade', type: 'button', 'aria-label': `${t('music.play')}: ${title}` },
         el('span', { class: 'player__btn', 'aria-hidden': 'true' }, icon('play')),
         el('span', { class: 'player__meta' },
           el('span', { class: 'player__platform' }, icon(p.icon), p.name),
-          el('span', { class: 'player__title' }, title)),
+          titleNode()),
         eq('player__eq'));
       facade.addEventListener('click', () => {
         const frame = iframe(info.src, title, info.height ? { height: info.height } : { style: `aspect-ratio:${info.ratio || '16 / 9'};height:auto` });
@@ -430,11 +450,11 @@
     // Enlaces a perfiles de música
     const r = D.redes || {};
     const links = ['soundcloud', 'mixcloud', 'spotify', 'youtube'].filter((k) => r[k] && !isPending(r[k]));
-    const wrap = $('#platforms');
-    wrap.replaceChildren();
-    if (links.length) {
-      wrap.append(...links.map((k) => el('a', Object.assign({ class: 'chip', href: r[k] }, extAttrs(r[k])), icon(PLATFORM[k].icon), PLATFORM[k].name)));
+    const chips = links.map((k) => el('a', Object.assign({ class: 'chip', href: r[k] }, extAttrs(r[k])), icon(PLATFORM[k].icon), PLATFORM[k].name));
+    if (r.linktree && !isPending(r.linktree)) {
+      chips.unshift(el('a', Object.assign({ class: 'chip chip--solid', href: r.linktree }, extAttrs(r.linktree)), icon('linktree'), el('span', { 'data-i18n': 'music.sets' }, t('music.sets'))));
     }
+    $('#platforms').replaceChildren(...chips);
   }
 
   /* ---------- 5. Fechas ---------- */
@@ -524,11 +544,11 @@
         '@context': 'https://schema.org',
         '@graph': events.map((g) => {
           const ev = {
-            '@type': 'MusicEvent', name: `GISEEELZ @ ${g.sala}`, startDate: g.fecha,
+            '@type': 'MusicEvent', name: `GISELZ @ ${g.sala}`, startDate: g.fecha,
             eventStatus: 'https://schema.org/EventScheduled',
             eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
             location: { '@type': 'Place', name: g.sala, address: { '@type': 'PostalAddress', addressLocality: g.ciudad } },
-            performer: { '@type': 'Person', name: 'GISEEELZ' },
+            performer: { '@type': 'Person', name: 'GISELZ' },
           };
           if (g.entradas && isExternal(g.entradas)) {
             ev.offers = { '@type': 'Offer', url: g.entradas, availability: g.agotado ? 'https://schema.org/SoldOut' : 'https://schema.org/InStock' };
@@ -550,9 +570,19 @@
       const variant = isPending(item.nombre) ? '' : i % 3 === 1 ? ' wall__item--outline' : i % 5 === 3 ? ' wall__item--hand' : '';
       const li = el('li', { class: 'wall__item reveal' + variant, style: `--d:${(i % 6) * 70}ms` });
       if (item.logo) li.append(el('img', { src: item.logo, alt: item.nombre || '', loading: 'lazy', decoding: 'async' }));
-      else li.append(textOr(item.nombre, 'clubs, eventos y festivales del presskit'));
+      else li.append(el('span', { class: 'wall__name' }, textOr(item.nombre, 'clubs, eventos y festivales del presskit')));
+      if (item.ciudad) li.append(el('span', { class: 'sr-only' }, ', '), el('span', { class: 'wall__city' }, item.ciudad));
       return li;
     }));
+
+    const groups = (D.eventos || []).filter((g) => g && (g.nombres || []).length);
+    const box = $('#scene');
+    box.hidden = !groups.length;
+    box.replaceChildren(
+      el('h3', { class: 'scene__head', 'data-i18n': 'clubs.more' }, t('clubs.more')),
+      el('div', { class: 'scene__grid' }, groups.map((g, i) => el('div', { class: 'scene__group reveal', style: `--d:${i * 90}ms` },
+        bindText(el('h4', { class: 'scene__title' }, tx(g.grupo)), g.grupo),
+        el('ul', { class: 'scene__list' }, g.nombres.map((n) => el('li', {}, n)))))));
   }
 
   /* ---------- 7. Galería + visor ---------- */
@@ -564,7 +594,7 @@
     const grid = $('#gallery');
     photos = (D.galeria || []).filter((f) => f && f.foto);
     if (!photos.length) {
-      grid.replaceChildren(...Array.from({ length: 5 }, (_, i) =>
+      grid.replaceChildren(...Array.from({ length: 6 }, (_, i) =>
         el('div', { class: 'shot shot--pending reveal', style: `--d:${(i % 4) * 80}ms` },
           el('div', { class: 'placeholder placeholder--dark' }, pendingTag('', `foto ${String(i + 1).padStart(2, '0')} del presskit`)))));
       return;
@@ -572,18 +602,18 @@
     grid.replaceChildren(...photos.map((f, i) =>
       el('button', {
         class: 'shot reveal', type: 'button', style: `--d:${(i % 4) * 80}ms`,
-        'aria-label': `${t('gallery.open')}: ${f.texto || 'GISEEELZ'}`,
+        'aria-label': `${t('gallery.open')}: ${f.texto || 'GISELZ'}`,
         onclick: () => openLightbox(i),
       },
       i % 5 === 2 ? el('span', { class: 'tape-strip', 'aria-hidden': 'true' }) : null,
-      el('span', { class: 'duo' }, el('img', { src: f.foto, alt: f.texto || 'GISEEELZ', loading: 'lazy', decoding: 'async' })),
+      el('span', { class: 'duo' }, el('img', { src: f.foto, alt: f.texto || 'GISELZ', loading: 'lazy', decoding: 'async' })),
       el('span', { class: 'shot__zoom', 'aria-hidden': 'true' }, icon('plus')))));
   }
   function showPhoto(i) {
     current = (i + photos.length) % photos.length;
     const f = photos[current];
     lbImg.src = f.foto;
-    lbImg.alt = f.texto || 'GISEEELZ';
+    lbImg.alt = f.texto || 'GISELZ';
     $('.lightbox__cap', lb).textContent = f.texto || '';
     $('.lightbox__count', lb).textContent = `${String(current + 1).padStart(2, '0')} / ${String(photos.length).padStart(2, '0')}`;
     const multi = photos.length > 1;
@@ -635,13 +665,13 @@
         card.append(el('div', { class: 'placeholder placeholder--dark reel__cover' }),
           el('div', { class: 'reel__body' },
             el('span', { class: 'reel__icons', 'aria-hidden': 'true' }, icon('instagram'), icon('tiktok'), icon('youtube')),
-            el('div', {}, el('p', { class: 'reel__title' }, textOr(v.titulo, `vídeo ${i + 1}`)))),
+            el('div', {}, el('p', { class: 'reel__title' }, textOr(tx(v.titulo), `vídeo ${i + 1}`)))),
           el('div', { style: 'position:absolute;left:16px;right:16px;bottom:72px;z-index:3' }, pendingTag('', 'pega el enlace del Reel, TikTok o YouTube en datos.js → VIDEOS')));
         return card;
       }
       const info = parseMedia(v.url) || { link: v.url };
       const p = PLATFORM[info.platform] || { name: 'Link', icon: 'arrow' };
-      const title = isPending(v.titulo) ? '' : v.titulo;
+      const title = isPending(tx(v.titulo)) ? '' : tx(v.titulo);
       const coverSrc = v.portada || info.thumb;
       const cover = coverSrc
         ? el('span', { class: 'reel__cover duo' }, el('img', { src: coverSrc, alt: '', loading: 'lazy', decoding: 'async' }))
@@ -669,7 +699,7 @@
   function renderPress() {
     const p = D.press || {};
     const cards = [
-      { url: p.presskit, type: 'PDF', label: 'press.kit', sub: 'press.kitSub', main: true, missing: 'sube el PDF a assets/presskit/GISEEELZ-presskit.pdf' },
+      { url: p.presskit, type: 'PDF', label: 'press.kit', sub: 'press.kitSub', main: true, missing: 'sube el PDF a assets/presskit/GISELZ-presskit.pdf' },
       { url: p.fotos, type: 'JPG', label: 'press.photos', sub: 'press.download', missing: 'enlace a fotos en alta' },
       { url: p.logos, type: 'PNG', label: 'press.logos', sub: 'press.download', missing: 'enlace a logos en alta' },
     ];
@@ -701,20 +731,20 @@
   const wa = String(C.whatsapp || '').replace(/\D/g, '');
   const ig = String(C.instagram || 'giseeelz').replace(/^@/, '');
   function prettyPhone(n) {
-    if (n.startsWith('34') && n.length === 11) return `+34 ${n.slice(2, 5)} ${n.slice(5, 8)} ${n.slice(8)}`;
+    if (n.startsWith('34') && n.length === 11) return `+34 ${n.slice(2, 5)} ${n.slice(5, 7)} ${n.slice(7, 9)} ${n.slice(9)}`;
     return '+' + n;
   }
   function renderContact() {
     const rows = [
       { key: 'contact.email', icon: 'mail', value: email, href: email && `mailto:${email}`, missing: 'email de booking' },
       { key: 'contact.wa', icon: 'whatsapp', value: wa && prettyPhone(wa), href: wa && `https://wa.me/${wa}`, missing: 'número de WhatsApp' },
-      { key: 'contact.ig', icon: 'instagram', value: '@' + ig.toUpperCase(), href: `https://www.instagram.com/${ig}/` },
+      { key: 'contact.ig', icon: 'instagram', value: '@' + ig, handle: true, href: `https://www.instagram.com/${ig}/` },
     ];
     $('#contact-list').replaceChildren(...rows.map((r) => {
       const inner = [
         el('span', { class: 'contact__icon', 'aria-hidden': 'true' }, icon(r.icon)),
         el('span', {}, el('span', { class: 'contact__label', 'data-i18n': r.key }, t(r.key)),
-          r.value ? el('span', { class: 'contact__value' }, r.value) : pendingTag('', r.missing)),
+          r.value ? el('span', { class: 'contact__value' + (r.handle ? ' contact__value--handle' : '') }, r.value) : pendingTag('', r.missing)),
       ];
       return el('li', { class: 'contact__item' }, r.href
         ? el('a', Object.assign({ href: r.href }, extAttrs(r.href)), inner, icon('arrow', 'icon--go'))
@@ -759,7 +789,7 @@
   /* ---------- 11. Redes (menú y footer) ---------- */
   function renderSocials() {
     const r = D.redes || {};
-    const list = ['instagram', 'tiktok', 'soundcloud', 'mixcloud', 'spotify', 'youtube']
+    const list = ['instagram', 'linktree', 'tiktok', 'soundcloud', 'mixcloud', 'spotify', 'youtube']
       .filter((k) => r[k] && !isPending(r[k]))
       .map((k) => ({ href: r[k], icon: PLATFORM[k].icon, label: PLATFORM[k].name }));
     if (wa) list.push({ href: `https://wa.me/${wa}`, icon: 'whatsapp', label: 'WhatsApp' });

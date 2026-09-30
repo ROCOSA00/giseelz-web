@@ -1,4 +1,4 @@
 Sube aquí las fotos de la galería (JPG o WebP, unos 1600 px de ancho y menos de 400 KB cada una).
 Después añade una línea por foto en assets/js/datos.js, apartado 10. GALERÍA:
 
-    { foto: "assets/img/galeria/foto-01.jpg", texto: "GISEEELZ en ..." },
+    { foto: "assets/img/galeria/foto-01.jpg", texto: "GISELZ en ..." },

@@ -1,7 +1,9 @@
-# GISEEELZ · Web oficial
+# GISELZ · Web oficial
 
-Web oficial de **GISEEELZ**, DJ open format ([@GISEEELZ](https://www.instagram.com/giseeelz/)).
+Web oficial de **GISELZ**, DJ open format de Barcelona (Instagram [@giseeelz](https://www.instagram.com/giseeelz/)).
 Es una web de una sola página, rápida y pensada para móvil (la mayoría de visitas llegan desde el link de la bio de Instagram). Está en español e inglés, con un selector ES / EN arriba.
+
+Todo el contenido (logo, fotos, bio, estilos, clubs, fiestas, contacto y enlaces de Spotify y Linktree) sale del presskit, que también se puede descargar desde la web.
 
 **Todo el contenido se cambia en un solo archivo: [`assets/js/datos.js`](assets/js/datos.js).**
 No hace falta tocar nada más ni saber programar.
@@ -47,7 +49,7 @@ Todo lo que pone **`[PENDIENTE: ...]`** está esperando un dato real. En la web 
 Abre `datos.js` y busca el apartado **`1. PRÓXIMAS FECHAS`**. Cada bolo es una línea así:
 
 ```js
-{ fecha: "2026-11-14", ciudad: "Madrid", sala: "Nombre del club", entradas: "https://enlace-a-entradas.com", agotado: false },
+{ fecha: "2026-11-14", ciudad: "Barcelona", sala: "Nombre del club", entradas: "https://enlace-a-entradas.com", agotado: false },
 ```
 
 | Campo      | Qué poner                                                                 |
@@ -83,19 +85,20 @@ Apartado **`2. CONTACTO DE BOOKING`**:
 
 ```js
 const CONTACTO = {
-  email: "booking@tudominio.com",
-  whatsapp: "34600111222",   // con prefijo del país (34 = España), sin "+" ni espacios
+  email: "giselzramon@gmail.com",
+  whatsapp: "34652932722",   // con prefijo del país (34 = España), sin "+" ni espacios
   instagram: "giseeelz",     // sin @
 };
 ```
 
 Con el email y el WhatsApp rellenos, el formulario de Booking funciona solo: al enviarlo se abre el WhatsApp o la app de correo de quien escribe, con el mensaje ya redactado (nombre, tipo de evento, fecha, ciudad y mensaje). No hace falta ningún servicio extra.
 
-### Redes sociales (pie de página)
+### Redes sociales (menú y pie de página)
 Apartado **`3. REDES SOCIALES`**. Pega el enlace completo de cada perfil. Las que estén vacías (`""`) no se muestran.
+El Linktree (`linktree`) además sale como botón **"Escucha mis sets"** en la sección Música.
 
 ### Música (reproductores)
-Apartado **`8. MÚSICA`**. Copia el enlace del mix tal cual desde **SoundCloud, Mixcloud, Spotify o YouTube** y pégalo en `url`. La web detecta sola la plataforma y pone su reproductor.
+Apartado **`9. MÚSICA`**. Ahora mismo están la playlist y las tres canciones de Spotify de los códigos QR del presskit. Copia el enlace del mix tal cual desde **SoundCloud, Mixcloud, Spotify o YouTube** y pégalo en `url`. La web detecta sola la plataforma y pone su reproductor.
 
 ```js
 const MUSICA = [
@@ -104,10 +107,12 @@ const MUSICA = [
 ];
 ```
 
+El `titulo` puede ir en un idioma (`"Playlist"`) o en los dos: `{ es: "Selección 01", en: "Pick 01" }`.
+
 Puedes poner tantos como quieras. Los reproductores no se cargan hasta que alguien pulsa play, así la web sigue yendo rápida.
 
 ### Vídeos (Reels, TikTok, YouTube)
-Apartado **`9. VÍDEOS`**. Igual que la música: pega el enlace del Reel de Instagram, del TikTok o del vídeo/Short de YouTube.
+Apartado **`10. VÍDEOS`**. Igual que la música: pega el enlace del Reel de Instagram, del TikTok o del vídeo/Short de YouTube.
 
 - En **TikTok**, usa el enlace largo que contiene `/video/` (el que ves al abrir el vídeo en el ordenador), no el corto `vm.tiktok.com`.
 - `portada` es opcional: una imagen para la tarjeta antes de darle al play (en YouTube se coge sola).
@@ -135,38 +140,43 @@ Usa nombres **sin espacios, tildes ni ñ**: `foto-01.jpg`, `hero.jpg`, `logo.png
 
 ### Galería
 1. Sube las fotos a `assets/img/galeria/`.
-2. En `datos.js`, apartado **`10. GALERÍA`**, añade una línea por foto:
+2. En `datos.js`, apartado **`11. GALERÍA`**, añade una línea por foto:
 
 ```js
 const GALERIA = [
-  { foto: "assets/img/galeria/foto-01.jpg", texto: "GISEEELZ pinchando en ..." },
-  { foto: "assets/img/galeria/foto-02.jpg", texto: "Backstage en ..." },
+  { foto: "assets/img/galeria/giselz-07.jpg", texto: "GISELZ pinchando en ..." },
+  { foto: "assets/img/galeria/giselz-08.jpg", texto: "Backstage en ..." },
 ];
 ```
+
+Las seis fotos actuales están sacadas del presskit. Algunas venían como captura de Instagram y se han recortado para dejar solo la foto; en cuanto tengas los archivos originales (más grandes y nítidos), sustitúyelas manteniendo el mismo nombre.
 
 `texto` es una descripción corta: se ve al ampliar la foto y ayuda a Google y a quien usa lector de pantalla.
 Las fotos salen en duotono rosa y negro y se ven a color al pasar el ratón. Al pulsarlas se abren a pantalla completa (en el móvil se desliza con el dedo entre ellas).
 
 ### Logo, portada y foto de la bio
-Sube los archivos a `assets/img/` y escribe su ruta en el apartado **`11. IMÁGENES PRINCIPALES`**:
+Están en el apartado **`12. IMÁGENES PRINCIPALES`**:
 
 ```js
 const IMAGENES = {
-  logo: "assets/img/logo.png",
+  logo: "assets/img/logo-giselz.png",
   hero: "assets/img/hero.jpg",
   heroVideo: "",              // opcional: vídeo corto .mp4 de fondo (5-15 s, sin sonido, < 4 MB)
   bio: "assets/img/bio.jpg",
 };
 ```
 
-Si `logo` está vacío, se usa el nombre GISEEELZ en tipografía (como ahora).
+- **Para cambiar la foto de portada o el logo, lo mejor es subir el archivo nuevo con el mismo nombre** (`hero.jpg` o `logo-giselz.png`) para que sustituya al anterior: así la portada carga al instante. Si le pones otro nombre y lo cambias aquí, también funciona, pero tarda un pelín más.
+- La foto de portada se ve siempre en duotono rosa y negro, así que puede ser a color o en blanco y negro.
+- El logo tiene que ser **blanco con fondo transparente** (PNG), porque va sobre fondo oscuro.
+- Si `logo` se deja vacío, se usa el nombre GISELZ en tipografía.
 
 ### Presskit en PDF
-Sube el PDF a la carpeta `assets/presskit/` con el nombre exacto **`GISEEELZ-presskit.pdf`**. El botón de descarga se activa solo.
-Las **fotos en alta** y los **logos** se ponen en el apartado **`12. PRESS`** como enlace (una carpeta de Google Drive o Dropbox es lo más cómodo, porque pesan mucho para el repositorio).
+Ya está subido en `assets/presskit/GISELZ-presskit.pdf`. Si haces uno nuevo, súbelo con **el mismo nombre** para sustituirlo.
+Las **fotos en alta** y los **logos** se ponen en el apartado **`13. PRESS`**. El logo ya apunta al PNG de la web; para las fotos en alta lo más cómodo es un enlace a una carpeta de Google Drive o Dropbox (pesan mucho para el repositorio).
 
 ### Imagen al compartir el link (WhatsApp, Instagram…)
-Es `assets/img/og-image.jpg` (1200 × 630 px). Ahora mismo es un diseño con el nombre en neón. Si quieres usar una foto, sube otra con **el mismo nombre y tamaño**.
+Es `assets/img/og-image.jpg` (1200 × 630 px): el logo, la foto de portada y los estilos. Si quieres cambiarla, sube otra con **el mismo nombre y tamaño**.
 Ojo: WhatsApp guarda la vista previa unos días; si no ves el cambio enseguida es normal.
 
 ---
@@ -175,16 +185,17 @@ Ojo: WhatsApp guarda la vista previa unos días; si no ves el cambio enseguida e
 
 Todo en `datos.js`:
 
-- **Frase de portada y bio** → apartado `4. TEXTOS`. Cada texto tiene versión `es` (español) y `en` (inglés). La bio larga es una lista de párrafos: cada frase entre comillas es un párrafo.
-- **Logros / highlights** → apartado `5. LOGROS`. Frases cortas.
+- **Frase de portada, bio y cita** → apartado `4. TEXTOS`. Cada texto tiene versión `es` (español) y `en` (inglés). La bio larga es una lista de párrafos: cada frase entre comillas es un párrafo. La bio es la del presskit; la versión en inglés es una traducción fiel.
+- **Logros / highlights** → apartado `5. LOGROS`. Frases cortas, en los dos idiomas.
 - **Estilos de la cinta que se mueve** → apartado `6. ESTILOS`.
-- **Clubs, eventos y festivales** → apartado `7. CLUBS`. Solo el nombre, o nombre + logo:
+- **Clubs y salas** (el muro grande) → apartado `7. CLUBS`. Nombre y ciudad (opcional), o nombre + logo:
   ```js
   const CLUBS = [
-    "Nombre del club",
+    { nombre: "Pachá", ciudad: "Barcelona" },
     { nombre: "Otro club", logo: "assets/img/clubs/otro-club.png" },
   ];
   ```
+- **Fiestas, eventos, fiestas mayores y restaurantes** → apartado `8. EVENTOS`. Cada grupo tiene un título (en los dos idiomas) y su lista de nombres. Para añadir un sitio, escríbelo entre comillas dentro de su lista.
 
 Los textos fijos de la web (menú, botones, formulario…) ya están traducidos a los dos idiomas.
 
@@ -201,7 +212,7 @@ Solo hay que hacerlo **una vez**, después de aceptar (fusionar) el Pull Request
 
 A partir de ahí, cada cambio que guardes en `main` se publica solo en 1-2 minutos.
 
-### ¿Dominio propio? (por ejemplo `giseeelz.com`)
+### ¿Dominio propio? (por ejemplo `giselz.com`)
 1. Cómpralo en cualquier registrador y sigue la guía de GitHub: *Settings → Pages → Custom domain*.
 2. En `index.html`, `robots.txt` y `sitemap.xml`, cambia `https://rocosa00.github.io/giseelz-web/` por tu dominio nuevo (usa "buscar y reemplazar"). Así la vista previa en WhatsApp y Google apuntan bien.
 
@@ -222,19 +233,16 @@ A partir de ahí, cada cambio que guardes en `main` se publica solo en 1-2 minut
 
 Todo esto sale en la web como etiqueta `[PENDIENTE]` hasta que se rellene:
 
-- [ ] Logo del presskit (`IMAGENES.logo`)
-- [ ] Foto de portada y foto de la bio (`IMAGENES.hero`, `IMAGENES.bio`)
-- [ ] Bio corta y bio larga, en español e inglés (`TEXTOS`)
-- [ ] Logros / highlights (`LOGROS`)
-- [ ] Confirmar la lista de estilos con el presskit (`GENEROS`)
-- [ ] Clubs, eventos y festivales donde ha pinchado (`CLUBS`)
-- [ ] Fotos de la galería (`GALERIA`)
-- [ ] Enlaces de mixes (`MUSICA`) y vídeos (`VIDEOS`)
+Ya está todo lo que venía en el presskit. Falta lo que el presskit no trae:
+
 - [ ] Próximas fechas (`FECHAS`)
-- [ ] Email y WhatsApp de booking (`CONTACTO`)
+- [ ] Vídeos: enlaces a Reels, TikToks o YouTube (`VIDEOS`)
+- [ ] Sets de SoundCloud, Mixcloud o YouTube, si los hay (están en su Linktree) (`MUSICA`)
+- [ ] Nombre de cada canción de Spotify, si se quiere mostrar en vez de "Selección 01, 02, 03" (`MUSICA`)
 - [ ] Resto de redes: TikTok, SoundCloud, Mixcloud, Spotify, YouTube (`REDES`)
-- [ ] PDF del presskit en `assets/presskit/GISEEELZ-presskit.pdf`
-- [ ] Enlaces a fotos y logos en alta (`PRESS`)
+- [ ] Enlace a las fotos originales en alta resolución (`PRESS.fotos`)
+- [ ] Fotos originales para sustituir las de la galería que venían como captura de Instagram (`giselz-02`, `04` y `05`)
+- [ ] Confirmar que el 652 93 27 22 tiene WhatsApp (el presskit lo da como teléfono)
 - [ ] Si la lista de estilos cambia, actualizar también las descripciones de `index.html` (las líneas con `description`), que son las que salen en Google y al compartir
 
 ---
@@ -247,9 +255,9 @@ assets/
   js/datos.js           ← AQUÍ SE EDITA TODO EL CONTENIDO
   js/main.js            La lógica de la web (no tocar)
   css/styles.css        Colores, tipografías y diseño. Los colores están arriba del todo (:root)
-  img/                  Logo, portada, foto de bio, favicon e imagen para compartir
+  img/                  Logo (logo-giselz.png), portada (hero.jpg), foto de bio, favicon e imagen para compartir
   img/galeria/          Fotos de la galería
-  presskit/             El presskit en PDF para descargar
+  presskit/             El presskit en PDF para descargar (GISELZ-presskit.pdf)
   fonts/                Tipografías (Anton, Inter y Permanent Marker, licencia libre)
 robots.txt, sitemap.xml Para Google
 .nojekyll               Necesario para GitHub Pages (no borrar)
