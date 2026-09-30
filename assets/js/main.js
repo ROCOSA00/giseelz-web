@@ -686,6 +686,58 @@
           el('span', { class: 'reel__title' }, el('span', { 'data-i18n': key }, t(key)), handle(url) ? el('span', { class: 'reel__handle' }, '@' + handle(url)) : null)));
     });
   }
+  /* Vista previa oficial de Instagram (embed.js). Se carga solo cuando la sección se acerca
+     a la pantalla; si el navegador la bloquea o no carga, se quedan las tarjetas con foto. */
+  function loadScript(src, timeout) {
+    return new Promise((resolve, reject) => {
+      const s = el('script', { src, async: true });
+      const timer = setTimeout(() => reject(new Error('timeout')), timeout);
+      s.onload = () => { clearTimeout(timer); resolve(); };
+      s.onerror = () => { clearTimeout(timer); reject(new Error('error')); };
+      document.body.append(s);
+    });
+  }
+  function setupInstagramEmbeds() {
+    const cards = $$('#reels .reel[data-ig]');
+    if (!cards.length) return;
+    const start = () => {
+      const holders = cards.map((card) => {
+        const holder = el('div', { class: 'reel__embed', 'aria-hidden': 'true' },
+          el('blockquote', { class: 'instagram-media', 'data-instgrm-permalink': card.dataset.ig + '?utm_source=ig_embed&utm_campaign=loading', 'data-instgrm-version': '14' },
+            el('a', { href: card.dataset.ig, target: '_blank', rel: 'noopener' }, 'Instagram')));
+        card.append(holder);
+        return holder;
+      });
+      const giveUp = (holder) => holder.remove();
+      loadScript('https://www.instagram.com/embed.js', 12000).then(() => {
+        if (window.instgrm && window.instgrm.Embeds) window.instgrm.Embeds.process();
+        holders.forEach((holder) => {
+          const card = holder.parentNode;
+          let done = false;
+          const check = () => {
+            const frame = $('iframe', holder);
+            if (done || !frame || frame.offsetHeight < 300) return;
+            done = true;
+            // La vista previa ya tiene contenido: sustituye a la tarjeta con foto
+            $$(':scope > :not(.reel__embed)', card).forEach((n) => n.remove());
+            holder.removeAttribute('aria-hidden');
+            card.classList.add('reel--embed');
+          };
+          const ro = 'ResizeObserver' in window ? new ResizeObserver(check) : null;
+          if (ro) new MutationObserver(() => { const f = $('iframe', holder); if (f) ro.observe(f); check(); }).observe(holder, { childList: true, subtree: true });
+          const poll = setInterval(check, 500);
+          setTimeout(() => { clearInterval(poll); if (ro) ro.disconnect(); if (!done) giveUp(holder); }, 15000);
+        });
+      }).catch(() => holders.forEach(giveUp));
+    };
+    const section = $('#videos');
+    if (!('IntersectionObserver' in window)) return start();
+    const io2 = new IntersectionObserver((entries) => {
+      if (entries.some((e) => e.isIntersecting)) { io2.disconnect(); start(); }
+    }, { rootMargin: '900px 0px' });
+    io2.observe(section);
+  }
+
   function renderVideoLinks(show) {
     const r = D.redes || {};
     const links = show ? [['instagram', r.instagram && !isPending(r.instagram) ? r.instagram.replace(/\/?(\?.*)?$/, '/') + 'reels/' : '', 'videos.moreIg'],
@@ -724,9 +776,11 @@
         el('span', { class: 'reel__badge' }, icon(p.icon), p.name),
         el('span', { class: 'reel__play', 'aria-hidden': 'true' }, icon(info.src || info.platform === 'instagram' ? 'play' : 'arrow')),
         title ? el('span', { class: 'reel__title' }, title) : null];
-      // Los reels de Instagram se abren en Instagram: incrustados piden login y se cortan en el móvil
+      // Instagram: primero una tarjeta con foto que enlaza al reel; al acercarse a la sección
+      // se cambia por la vista previa oficial de Instagram (ver setupInstagramEmbeds)
       if (!info.src || info.platform === 'instagram') {
-        const href = info.link || v.url;
+        const href = info.link || (info.src ? info.src.replace(/embed\/$/, '') : v.url);
+        if (info.platform === 'instagram' && info.src) card.dataset.ig = href;
         const label = () => `${t('videos.open')} ${p.name}${title ? ': ' + title : ''}`;
         const link = el('a', Object.assign({ class: 'reel__facade', href, 'aria-label': label() }, extAttrs(href)), inner);
         langHooks.push(() => link.setAttribute('aria-label', label()));
@@ -868,6 +922,7 @@
   renderClubs();
   renderGallery();
   renderVideos();
+  setupInstagramEmbeds();
   renderPress();
   renderContact();
   renderSocials();

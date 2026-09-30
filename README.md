@@ -116,9 +116,10 @@ Puedes poner tantos como quieras. Los reproductores no se cargan hasta que algui
 ### Vídeos (Reels, TikTok, YouTube)
 Apartado **`10. VÍDEOS`**. Igual que la música: pega el enlace del Reel de Instagram, del TikTok o del vídeo/Short de YouTube.
 
-- Los **reels de Instagram** se abren en Instagram (en el móvil, directamente en la app): incrustados en la web piden iniciar sesión y se ven cortados. Los de **TikTok y YouTube** se reproducen dentro de la web.
+- Los **reels de Instagram** se ven con la **vista previa oficial de Instagram**, que se puede reproducir en la propia web. Se carga cuando la visita baja hasta la sección, para no hacer lenta la portada. Si su navegador bloquea Instagram (pasa con Brave o con Firefox en modo estricto), sale en su lugar una tarjeta con la foto de `portada` que abre el reel en Instagram. Los de **TikTok y YouTube** también se reproducen dentro de la web.
+- Solo funciona con reels de una cuenta **pública**.
 - Puedes copiar el enlace tal cual desde "Compartir → Copiar enlace"; lo que va detrás del `?` sobra, pero no molesta.
-- Ahora mismo hay 4 reels, con fotos del presskit como portada. Si quieres otra portada, pon en `portada` la ruta de una imagen vertical.
+- Ahora mismo hay 4 reels. La `portada` (foto del presskit) solo se usa en la tarjeta de respaldo; el `titulo` se puede dejar vacío.
 - Si la lista se deja vacía, la sección muestra dos tarjetas que llevan a sus **reels de Instagram** y a su **TikTok**.
 
 - En **TikTok**, usa el enlace largo que contiene `/video/` (el que ves al abrir el vídeo en el ordenador), no el corto `vm.tiktok.com`.

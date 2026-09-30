@@ -200,16 +200,18 @@ const MUSICA = [
    · portada  → (opcional) imagen para la tarjeta antes de darle al play,
                 ej. "assets/img/videos/reel-1.jpg". En YouTube no hace falta.
 
-   Los reels de Instagram se abren en Instagram (en el móvil, en la app);
-   los de TikTok y YouTube se reproducen dentro de la web.
+   Los reels de Instagram se ven con la vista previa oficial de Instagram
+   (se pueden reproducir en la propia web). Si el navegador de quien visita la
+   bloquea, sale una tarjeta con la foto de "portada" que abre el reel.
+   Los de TikTok y YouTube se reproducen dentro de la web.
    Mientras esta lista esté vacía, la sección muestra dos tarjetas que llevan
    a sus reels de Instagram y a su TikTok.
    -------------------------------------------------------------------------- */
 const VIDEOS = [
-  { titulo: "Reel 01", url: "https://www.instagram.com/reel/DMnPs49Mo-p/", portada: "assets/img/galeria/giselz-02.jpg" },
-  { titulo: "Reel 02", url: "https://www.instagram.com/reel/DPCPt9-iADu/", portada: "assets/img/galeria/giselz-03.jpg" },
-  { titulo: "Reel 03", url: "https://www.instagram.com/reel/DdUGtmoIdiw/", portada: "assets/img/galeria/giselz-04.jpg" },
-  { titulo: "Reel 04", url: "https://www.instagram.com/reel/DXhRL2viGGo/", portada: "assets/img/galeria/giselz-05.jpg" },
+  { titulo: "", url: "https://www.instagram.com/reel/DMnPs49Mo-p/", portada: "assets/img/galeria/giselz-02.jpg" },
+  { titulo: "", url: "https://www.instagram.com/reel/DPCPt9-iADu/", portada: "assets/img/galeria/giselz-03.jpg" },
+  { titulo: "", url: "https://www.instagram.com/reel/DdUGtmoIdiw/", portada: "assets/img/galeria/giselz-04.jpg" },
+  { titulo: "", url: "https://www.instagram.com/reel/DXhRL2viGGo/", portada: "assets/img/galeria/giselz-05.jpg" },
 
   // Para añadir otro, copia esta línea, quítale las dos barras del principio y pega el enlace:
   // { titulo: "Nombre del vídeo", url: "https://www.instagram.com/reel/XXXXXXXXX/", portada: "" },
