@@ -785,7 +785,7 @@ p { margin: 0 0 1em; }
 
 /* ---------- 8. Vídeos ---------- */
 .reels {
-  display: grid; grid-auto-flow: column; grid-auto-columns: min(74vw, 320px); gap: 14px;
+  display: grid; grid-auto-flow: column; grid-auto-columns: min(80vw, 340px); gap: 14px; align-items: start;
   overflow-x: auto; scroll-snap-type: x mandatory; overscroll-behavior-x: contain;
   margin-inline: calc(-1 * var(--gutter)); padding: 6px var(--gutter) 18px;
   scroll-padding-inline: var(--gutter);
@@ -820,6 +820,15 @@ p { margin: 0 0 1em; }
   font: 400 1.6rem/1 var(--f-display); text-transform: uppercase; color: var(--white);
 }
 .reel iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+/* Vista previa oficial de Instagram: se prepara oculta y sustituye a la tarjeta cuando está lista */
+.reel__embed { position: absolute; left: 0; right: 0; top: 0; visibility: hidden; pointer-events: none; }
+.reel--embed { aspect-ratio: auto; background: #fff; }
+.reel--embed .reel__embed { position: static; visibility: visible; pointer-events: auto; }
+.reel__embed .instagram-media, .reel .reel__embed iframe {
+  position: static !important; display: block !important;
+  margin: 0 !important; border: 0 !important; border-radius: 0 !important; box-shadow: none !important;
+  width: 100% !important; min-width: 0 !important; max-width: none !important;
+}
 .reel__title .reel__handle { display: block; margin-top: 8px; font: 700 .85rem/1 var(--f-body); letter-spacing: .06em; text-transform: none; color: var(--chicle); }
 .reel__title span[data-i18n] { display: block; }
 .reel--pending { border-style: dashed; }
