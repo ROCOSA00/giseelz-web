@@ -810,6 +810,8 @@ p { margin: 0 0 1em; }
   font: 400 1.6rem/1 var(--f-display); text-transform: uppercase; color: var(--white);
 }
 .reel iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+.reel__title .reel__handle { display: block; margin-top: 8px; font: 700 .85rem/1 var(--f-body); letter-spacing: .06em; text-transform: none; color: var(--chicle); }
+.reel__title span[data-i18n] { display: block; }
 .reel--pending { border-style: dashed; }
 .reel--pending .reel__body { position: absolute; inset: 0; display: grid; align-content: space-between; padding: 16px; }
 .reel--pending .reel__icons { display: flex; gap: 10px; color: var(--pink); }

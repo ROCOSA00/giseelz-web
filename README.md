@@ -49,15 +49,17 @@ Todo lo que pone **`[PENDIENTE: ...]`** está esperando un dato real. En la web 
 Abre `datos.js` y busca el apartado **`1. PRÓXIMAS FECHAS`**. Cada bolo es una línea así:
 
 ```js
-{ fecha: "2026-11-14", ciudad: "Barcelona", sala: "Nombre del club", entradas: "https://enlace-a-entradas.com", agotado: false },
+{ fecha: "2026-10-11", ciudad: "Badalona", sala: "Espai Titus", evento: "Vive Fomo", info: "https://www.instagram.com/vivefomo/" },
 ```
 
 | Campo      | Qué poner                                                                 |
 |------------|---------------------------------------------------------------------------|
 | `fecha`    | Año-mes-día, con guiones: `"2026-11-14"` es el 14 de noviembre de 2026.   |
 | `ciudad`   | La ciudad.                                                                |
-| `sala`     | El club, sala, evento o festival.                                         |
+| `sala`     | El club, sala o festival.                                                 |
+| `evento`   | (Opcional) el nombre de la fiesta. Sale delante de la sala: "Vive Fomo · Espai Titus". |
 | `entradas` | El enlace para comprar entradas. Si no hay, déjalo vacío: `""`.           |
+| `info`     | (Opcional) un enlace con más información, por ejemplo el Instagram de la fiesta. Si no hay entradas, sale un botón **Info** que lleva ahí. |
 | `agotado`  | `true` si están agotadas (sale un sello **SOLD OUT**). Si no, `false`.    |
 
 **Ejemplo con tres bolos** (los nombres son inventados, solo para ver el formato):
@@ -113,6 +115,8 @@ Puedes poner tantos como quieras. Los reproductores no se cargan hasta que algui
 
 ### Vídeos (Reels, TikTok, YouTube)
 Apartado **`10. VÍDEOS`**. Igual que la música: pega el enlace del Reel de Instagram, del TikTok o del vídeo/Short de YouTube.
+
+Mientras la lista esté vacía, la sección muestra dos tarjetas que llevan a sus **reels de Instagram** y a su **TikTok**. En cuanto añadas el primer vídeo, se sustituyen por los vídeos.
 
 - En **TikTok**, usa el enlace largo que contiene `/video/` (el que ves al abrir el vídeo en el ordenador), no el corto `vm.tiktok.com`.
 - `portada` es opcional: una imagen para la tarjeta antes de darle al play (en YouTube se coge sola).
@@ -228,13 +232,12 @@ La web está publicada en **https://giseelz-web.vercel.app/** y Vercel está con
 
 ## 8. Lista de cosas pendientes
 
-Ya está todo lo que venía en el presskit. Falta lo que el presskit no trae (en la web sale como etiqueta `[PENDIENTE]` hasta que se rellena):
+Ya está todo lo que venía en el presskit, más la primera fecha, SoundCloud y TikTok. Falta:
 
-- [ ] Próximas fechas (`FECHAS`)
-- [ ] Vídeos: enlaces a Reels, TikToks o YouTube (`VIDEOS`)
-- [ ] Sets de SoundCloud, Mixcloud o YouTube, si los hay (están en su Linktree) (`MUSICA`)
+- [ ] Ir añadiendo las próximas fechas (`FECHAS`)
+- [ ] Vídeos: enlaces a reels o TikToks de fiesta o cabina (`VIDEOS`). Mientras tanto, la sección enlaza a su Instagram y a su TikTok.
 - [ ] Nombre de cada canción de Spotify, si se quiere mostrar en vez de "Selección 01, 02, 03" (`MUSICA`)
-- [ ] Resto de redes: TikTok, SoundCloud, Mixcloud, Spotify, YouTube (`REDES`)
+- [ ] Mixcloud, perfil de Spotify o YouTube, solo si los tiene (`REDES`)
 - [ ] Enlace a las fotos originales en alta resolución (`PRESS.fotos`)
 - [ ] Fotos originales para sustituir las de la galería que venían como captura de Instagram (`giselz-02`, `04` y `05`)
 - [ ] Si la lista de estilos cambia, actualizar también las descripciones de `index.html` (las líneas con `description`), que son las que salen en Google y al compartir

@@ -20,8 +20,11 @@
    --------------------------------------------------------------------------
    · fecha     → formato AAAA-MM-DD   (ej. "2026-11-14" = 14 nov 2026)
    · ciudad    → ciudad del bolo
-   · sala      → club, sala, evento o festival
+   · sala      → club, sala o festival
+   · evento    → (opcional) nombre de la fiesta, ej. "Vive Fomo"
    · entradas  → enlace para comprar entradas ( "" si no hay )
+   · info      → (opcional) enlace con más info (ej. el Instagram de la fiesta)
+                 si no hay entradas, sale un botón "Info" con este enlace
    · agotado   → true si están agotadas (sale un sello de SOLD OUT)
 
    No hace falta borrar las fechas antiguas: cuando pasa el día, la web las
@@ -31,10 +34,10 @@
    ?demo al final de la dirección (ej. https://giseelz-web.vercel.app/?demo).
    -------------------------------------------------------------------------- */
 const FECHAS = [
-  // Copia esta línea, quítale las dos barras del principio y rellénala:
-  // { fecha: "2026-11-14", ciudad: "Barcelona", sala: "Nombre del club", entradas: "https://...", agotado: false },
+  { fecha: "2026-10-11", ciudad: "Badalona", sala: "Espai Titus", evento: "Vive Fomo", info: "https://www.instagram.com/vivefomo/" },
 
-  // [PENDIENTE: añadir las próximas fechas (el presskit no trae ninguna)]
+  // Para añadir otra, copia esta línea, quítale las dos barras del principio y rellénala:
+  // { fecha: "2026-11-14", ciudad: "Barcelona", sala: "Nombre del club", evento: "", entradas: "https://...", info: "", agotado: false },
 ];
 
 
@@ -60,8 +63,8 @@ const CONTACTO = {
 const REDES = {
   instagram:  "https://www.instagram.com/giseeelz/",
   linktree:   "https://linktr.ee/gislz",
-  tiktok:     "", // [PENDIENTE: perfil de TikTok, si lo hay]
-  soundcloud: "", // [PENDIENTE: perfil de SoundCloud, si lo hay]
+  tiktok:     "https://www.tiktok.com/@giseeelz",
+  soundcloud: "https://soundcloud.com/giselz",
   mixcloud:   "", // [PENDIENTE: perfil de Mixcloud, si lo hay]
   spotify:    "", // [PENDIENTE: perfil de Spotify, si lo hay]
   youtube:    "", // [PENDIENTE: canal de YouTube, si lo hay]
@@ -177,14 +180,16 @@ const EVENTOS = [
    --------------------------------------------------------------------------
    Pega el enlace tal cual lo copias de SoundCloud, Mixcloud, Spotify o
    YouTube: la web detecta sola de qué plataforma es y pone su reproductor.
-   Los de ahora son los enlaces de Spotify de los códigos QR del presskit.
+   Si pegas el enlace del perfil de SoundCloud, sale la lista de todos sus sets.
+   Los de Spotify son los de los códigos QR del presskit.
    -------------------------------------------------------------------------- */
 const MUSICA = [
+  { titulo: { es: "Sets en SoundCloud", en: "Sets on SoundCloud" }, url: "https://soundcloud.com/giselz" },
   { titulo: "Playlist", url: "https://open.spotify.com/playlist/2kl0wCkvyy1if9LLLxrITC" },
   { titulo: { es: "Selección 01", en: "Pick 01" }, url: "https://open.spotify.com/track/4dyx5SzxPPaD8xQIid5Wjj" },
   { titulo: { es: "Selección 02", en: "Pick 02" }, url: "https://open.spotify.com/track/4gv9eyEf7cXViNTBXS2g5C" },
   { titulo: { es: "Selección 03", en: "Pick 03" }, url: "https://open.spotify.com/track/0scnE7Y7YLjKyEfCmDXvSZ" },
-  // [PENDIENTE: añadir aquí sets de SoundCloud, Mixcloud o YouTube (están en su Linktree)]
+  // Para añadir un set concreto: { titulo: "Nombre del set", url: "https://soundcloud.com/giselz/nombre-del-set" },
 ];
 
 
@@ -194,12 +199,15 @@ const MUSICA = [
    · url      → enlace del reel, del TikTok o del vídeo de YouTube
    · portada  → (opcional) imagen para la tarjeta antes de darle al play,
                 ej. "assets/img/videos/reel-1.jpg". En YouTube no hace falta.
+
+   Mientras esta lista esté vacía, la sección muestra dos tarjetas que llevan
+   a sus reels de Instagram y a su TikTok.
    -------------------------------------------------------------------------- */
 const VIDEOS = [
-  { titulo: "[PENDIENTE: vídeo 1]", url: "", portada: "" },
-  { titulo: "[PENDIENTE: vídeo 2]", url: "", portada: "" },
-  { titulo: "[PENDIENTE: vídeo 3]", url: "", portada: "" },
-  { titulo: "[PENDIENTE: vídeo 4]", url: "", portada: "" },
+  // Copia esta línea, quítale las dos barras del principio y pega el enlace del reel:
+  // { titulo: "Nombre del vídeo", url: "https://www.instagram.com/reel/XXXXXXXXX/", portada: "" },
+
+  // [PENDIENTE: enlaces de reels o TikToks de fiesta / cabina]
 ];
 
 
