@@ -45,6 +45,8 @@
   </script>
   <script src="assets/js/datos.js" defer></script>
   <script src="assets/js/main.js" defer></script>
+  <script src="assets/js/vendor/lenis.min.js" defer></script>
+  <script src="assets/js/scroll.js" defer></script>
 
   <script type="application/ld+json">
   {
@@ -118,7 +120,7 @@
   </header>
 
   <!-- Menú a pantalla completa (móvil) -->
-  <div class="menu" id="menu">
+  <div class="menu" id="menu" data-lenis-prevent>
     <nav aria-label="Menú">
       <ol>
         <li><a href="#bio" data-i18n="nav.bio">Bio</a></li>
@@ -212,8 +214,13 @@
             </div>
           </div>
         </div>
+      </div>
+    </section>
 
-        <figure class="quote reveal" id="bio-quote">
+    <!-- ============ CITA (se ilumina palabra a palabra al hacer scroll) ============ -->
+    <section class="quote-stage" id="cita" aria-label="Cita">
+      <div class="quote-stage__pin">
+        <figure class="quote wrap" id="bio-quote">
           <svg class="quote__heart" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7.5-4.6-10-9.3C.3 8.4 2 4.5 5.8 4.1 8.1 3.9 9.8 5.2 12 7.6c2.2-2.4 3.9-3.7 6.2-3.5 3.8.4 5.5 4.3 3.8 7.6C19.5 16.4 12 21 12 21Z"/></svg>
           <blockquote class="quote__text"><p id="bio-quote-text"></p></blockquote>
           <figcaption class="quote__by">— GISELZ</figcaption>
@@ -246,12 +253,19 @@
 
     <!-- ============ 6. CLUBS Y EVENTOS ============ -->
     <section class="sec sec--pink" id="clubs" aria-labelledby="clubs-title">
+      <!-- Con las animaciones activas, este bloque se queda fijo y los clubs pasan de lado al hacer scroll -->
+      <div class="hscroll" id="clubs-hscroll">
+        <div class="hscroll__pin">
+          <div class="wrap">
+            <header class="sec-head">
+              <p class="kicker"><span class="kicker__num">04</span><span data-i18n="clubs.kicker">Ha pinchado en</span></p>
+              <h2 class="mega reveal" id="clubs-title" data-i18n="clubs.title" data-text="Clubs">Clubs</h2>
+            </header>
+          </div>
+          <div class="hscroll__track"><ul class="wall" id="wall"></ul></div>
+        </div>
+      </div>
       <div class="wrap">
-        <header class="sec-head">
-          <p class="kicker"><span class="kicker__num">04</span><span data-i18n="clubs.kicker">Ha pinchado en</span></p>
-          <h2 class="mega reveal" id="clubs-title" data-i18n="clubs.title" data-text="Clubs">Clubs</h2>
-        </header>
-        <ul class="wall" id="wall"></ul>
         <div class="scene" id="scene"></div>
       </div>
     </section>
@@ -368,7 +382,7 @@
   </footer>
 
   <!-- Visor de fotos a pantalla completa -->
-  <dialog class="lightbox" id="lightbox" aria-label="Galería">
+  <dialog class="lightbox" id="lightbox" aria-label="Galería" data-lenis-prevent>
     <button class="lightbox__btn lightbox__close" type="button" data-i18n-attr="aria-label:lb.close" aria-label="Cerrar">
       <svg class="icon" aria-hidden="true"><use href="#i-close"/></svg>
     </button>

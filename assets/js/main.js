@@ -208,6 +208,8 @@
     renderBio();
     renderDates();
     observeReveals();
+    // Avisa a scroll.js de que el contenido ha cambiado (idioma, textos)
+    document.dispatchEvent(new CustomEvent('giselz:render'));
   }
   $$('.lang button').forEach((b) =>
     b.addEventListener('click', () => {
@@ -331,9 +333,11 @@
       ...(logros.length ? logros : ['']).map((l) => el('li', {}, star(), textOr(tx(l), 'logros del presskit')))
     );
 
+    // La cita va palabra a palabra para que se pueda iluminar al hacer scroll (scroll.js)
     const quote = tx(tt.cita);
-    $('#bio-quote').hidden = !quote;
-    $('#bio-quote-text').textContent = quote || '';
+    $('#cita').hidden = !quote;
+    const words = String(quote || '').trim().split(/\s+/).filter(Boolean);
+    $('#bio-quote-text').replaceChildren(...words.flatMap((w, i) => [el('span', { class: 'w' }, w), i < words.length - 1 ? ' ' : '']));
   }
   $('#bio-toggle').addEventListener('click', (e) => {
     const btn = e.currentTarget;
