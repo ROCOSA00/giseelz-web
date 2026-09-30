@@ -103,6 +103,7 @@
       'lb.close': 'Cerrar', 'lb.prev': 'Foto anterior', 'lb.next': 'Foto siguiente',
       'videos.kicker': 'En acción', 'videos.title': 'Vídeos', 'videos.play': 'Ver vídeo', 'videos.open': 'Ver en',
       'videos.ig': 'Reels en Instagram', 'videos.tt': 'Vídeos en TikTok',
+      'videos.moreIg': 'Más reels en Instagram', 'videos.moreTt': 'Más en TikTok',
       'press.kicker': 'Para medios y promotores', 'press.title': 'Press',
       'press.kit': 'Presskit', 'press.kitSub': 'Descargar PDF',
       'press.photos': 'Fotos en alta', 'press.logos': 'Logos', 'press.download': 'Descargar',
@@ -141,6 +142,7 @@
       'lb.close': 'Close', 'lb.prev': 'Previous photo', 'lb.next': 'Next photo',
       'videos.kicker': 'In action', 'videos.title': 'Videos', 'videos.play': 'Play video', 'videos.open': 'Watch on',
       'videos.ig': 'Reels on Instagram', 'videos.tt': 'Videos on TikTok',
+      'videos.moreIg': 'More reels on Instagram', 'videos.moreTt': 'More on TikTok',
       'press.kicker': 'For media & promoters', 'press.title': 'Press',
       'press.kit': 'Press kit', 'press.kitSub': 'Download PDF',
       'press.photos': 'Hi-res photos', 'press.logos': 'Logos', 'press.download': 'Download',
@@ -436,12 +438,14 @@
             titleNode())));
         return card;
       }
-      const facade = el('button', { class: 'player__facade', type: 'button', 'aria-label': `${t('music.play')}: ${title}` },
+      const musicLabel = () => `${t('music.play')}: ${isPending(tx(m.titulo)) ? p.name : tx(m.titulo)}`;
+      const facade = el('button', { class: 'player__facade', type: 'button', 'aria-label': musicLabel() },
         el('span', { class: 'player__btn', 'aria-hidden': 'true' }, icon('play')),
         el('span', { class: 'player__meta' },
           el('span', { class: 'player__platform' }, icon(p.icon), p.name),
           titleNode()),
         eq('player__eq'));
+      langHooks.push(() => facade.setAttribute('aria-label', musicLabel()));
       facade.addEventListener('click', () => {
         const frame = iframe(info.src, title, info.height ? { height: info.height } : { style: `aspect-ratio:${info.ratio || '16 / 9'};height:auto` });
         frame.removeAttribute('loading');
@@ -682,9 +686,18 @@
           el('span', { class: 'reel__title' }, el('span', { 'data-i18n': key }, t(key)), handle(url) ? el('span', { class: 'reel__handle' }, '@' + handle(url)) : null)));
     });
   }
+  function renderVideoLinks(show) {
+    const r = D.redes || {};
+    const links = show ? [['instagram', r.instagram && !isPending(r.instagram) ? r.instagram.replace(/\/?(\?.*)?$/, '/') + 'reels/' : '', 'videos.moreIg'],
+      ['tiktok', r.tiktok && !isPending(r.tiktok) ? r.tiktok : '', 'videos.moreTt']].filter(([, url]) => url) : [];
+    $('#video-links').replaceChildren(...links.map(([k, url, key]) =>
+      el('a', Object.assign({ class: 'chip', href: url }, extAttrs(url)), icon(PLATFORM[k].icon), el('span', { 'data-i18n': key }, t(key)))));
+  }
   function renderVideos() {
     const row = $('#reels');
-    if (!(D.videos || []).some((v) => v && !isPending(v.url))) {
+    const hasVideos = (D.videos || []).some((v) => v && !isPending(v.url));
+    renderVideoLinks(hasVideos);
+    if (!hasVideos) {
       const cards = profileCards();
       if (cards.length) return row.replaceChildren(...cards);
     }
@@ -709,13 +722,20 @@
         : el('span', { class: 'reel__cover placeholder placeholder--dark' });
       const inner = [cover, el('span', { class: 'reel__shade' }),
         el('span', { class: 'reel__badge' }, icon(p.icon), p.name),
-        el('span', { class: 'reel__play', 'aria-hidden': 'true' }, icon(info.src ? 'play' : 'arrow')),
+        el('span', { class: 'reel__play', 'aria-hidden': 'true' }, icon(info.src || info.platform === 'instagram' ? 'play' : 'arrow')),
         title ? el('span', { class: 'reel__title' }, title) : null];
-      if (!info.src) {
-        card.append(el('a', Object.assign({ class: 'reel__facade', href: info.link, 'aria-label': `${t('videos.open')} ${p.name}` }, extAttrs(info.link)), inner));
+      // Los reels de Instagram se abren en Instagram: incrustados piden login y se cortan en el móvil
+      if (!info.src || info.platform === 'instagram') {
+        const href = info.link || v.url;
+        const label = () => `${t('videos.open')} ${p.name}${title ? ': ' + title : ''}`;
+        const link = el('a', Object.assign({ class: 'reel__facade', href, 'aria-label': label() }, extAttrs(href)), inner);
+        langHooks.push(() => link.setAttribute('aria-label', label()));
+        card.append(link);
         return card;
       }
-      const btn = el('button', { class: 'reel__facade', type: 'button', 'aria-label': `${t('videos.play')}${title ? ': ' + title : ''} (${p.name})` }, inner);
+      const label = () => `${t('videos.play')}${title ? ': ' + title : ''} (${p.name})`;
+      const btn = el('button', { class: 'reel__facade', type: 'button', 'aria-label': label() }, inner);
+      langHooks.push(() => btn.setAttribute('aria-label', label()));
       btn.addEventListener('click', () => {
         const frame = iframe(info.src, title || p.name, info.platform === 'instagram' ? { scrolling: 'no' } : null);
         frame.removeAttribute('loading');
