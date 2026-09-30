@@ -256,6 +256,8 @@ index.html              La página (estructura y textos para Google). No hace fa
 assets/
   js/datos.js           ← AQUÍ SE EDITA TODO EL CONTENIDO
   js/main.js            La lógica de la web (no tocar)
+  js/scroll.js          Los efectos al hacer scroll (no tocar)
+  js/vendor/lenis.min.js  Librería del scroll suave (Lenis, licencia MIT)
   css/styles.css        Colores, tipografías y diseño. Los colores están arriba del todo (:root)
   img/                  Logo (logo-giselz.png), portada (hero.jpg), foto de bio, favicon e imagen para compartir
   img/galeria/          Fotos de la galería
@@ -265,8 +267,22 @@ robots.txt, sitemap.xml Para Google
 .nojekyll               Solo se usa si algún día se publica en GitHub Pages (no molesta)
 ```
 
+### Efectos al hacer scroll
+La web tiene efectos al hacer scroll, al estilo de las webs de artistas grandes:
+- **Scroll suave** con inercia en ordenador. En el móvil se deja el scroll normal del teléfono, que es el que mejor se siente.
+- **Portada**: se queda fija; la foto hace zoom y el logo se desvanece mientras la web pasa por encima.
+- **Secciones apiladas**: cuando terminas una sección, se queda quieta y la siguiente la tapa como una carta.
+- **Títulos** que se rellenan de color al pasar.
+- **Cintas de estilos** que aceleran al hacer scroll y cambian de sentido si subes.
+- **Cita** que se ilumina palabra a palabra.
+- **Clubs** que pasan de lado mientras bajas.
+- **Galería** con parallax, **cursor rosa** en ordenador y **barra de progreso** arriba.
+
+No hay que configurar nada: todo sale del contenido de `datos.js`. Si alguien tiene activado "reducir movimiento" en su móvil u ordenador (opción de accesibilidad), los efectos no se activan y ve la web normal.
+
 ### Detalles técnicos (para quien programe)
 - HTML + CSS + JavaScript sin dependencias ni paso de compilación. Para verla en local basta con un servidor estático (`python3 -m http.server`).
 - Mobile first; fuentes auto-alojadas y precargadas; imágenes con `loading="lazy"`; los reproductores de SoundCloud, Mixcloud, Spotify, YouTube, Instagram y TikTok solo se cargan al pulsar play (fachada), lo que además evita cookies de terceros hasta ese momento.
-- Respeta `prefers-reduced-motion` (sin animaciones) y el modo ahorro de datos (no carga el vídeo de portada).
+- Respeta `prefers-reduced-motion` (sin animaciones ni efectos de scroll) y el modo ahorro de datos (no carga el vídeo de portada).
+- Efectos de scroll en `assets/js/scroll.js`: un único bucle `requestAnimationFrame` que lee posiciones y escribe solo transform, opacity y variables CSS cuando cambian. Las secciones apiladas usan `position: sticky` con `top` negativo, así que no alargan la página, y las que quedan tapadas del todo se ocultan (`visibility: hidden`) para no pintarlas. Los saltos del menú usan marcas `.stack-mark`, porque la posición de un elemento "pegado" no sirve para calcular a dónde saltar.
 - SEO: título, descripción, Open Graph y Twitter Card, datos estructurados `Person` y `MusicEvent` (este último se genera con las próximas fechas).
