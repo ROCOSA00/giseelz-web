@@ -94,7 +94,7 @@
       'music.kicker': 'Dale al play', 'music.title': 'Música', 'music.play': 'Reproducir', 'music.more': 'Más música en',
       'music.open': 'Escuchar en', 'music.sets': 'Escucha mis sets',
       'dates.kicker': 'En directo', 'dates.title': 'Fechas', 'dates.upcoming': 'Próximas fechas', 'dates.past': 'Fechas pasadas',
-      'dates.tickets': 'Entradas', 'dates.soldout': 'Sold out', 'dates.soon': 'Info pronto',
+      'dates.tickets': 'Entradas', 'dates.info': 'Info', 'dates.soldout': 'Sold out', 'dates.soon': 'Info pronto',
       'dates.empty.title': 'Nuevas fechas muy pronto', 'dates.empty.text': '¿Quieres a GISELZ en tu club, festival o evento?',
       'dates.empty.cta': 'Pide fecha', 'dates.demo': 'Modo demo · datos de ejemplo, no son fechas reales',
       'dates.demo.city': 'Ciudad de ejemplo', 'dates.demo.venue': 'Sala de ejemplo',
@@ -102,6 +102,7 @@
       'gallery.kicker': 'Fotos', 'gallery.title': 'Galería', 'gallery.open': 'Ampliar foto',
       'lb.close': 'Cerrar', 'lb.prev': 'Foto anterior', 'lb.next': 'Foto siguiente',
       'videos.kicker': 'En acción', 'videos.title': 'Vídeos', 'videos.play': 'Ver vídeo', 'videos.open': 'Ver en',
+      'videos.ig': 'Reels en Instagram', 'videos.tt': 'Vídeos en TikTok',
       'press.kicker': 'Para medios y promotores', 'press.title': 'Press',
       'press.kit': 'Presskit', 'press.kitSub': 'Descargar PDF',
       'press.photos': 'Fotos en alta', 'press.logos': 'Logos', 'press.download': 'Descargar',
@@ -131,7 +132,7 @@
       'music.kicker': 'Press play', 'music.title': 'Music', 'music.play': 'Play', 'music.more': 'More music on',
       'music.open': 'Listen on', 'music.sets': 'Listen to my sets',
       'dates.kicker': 'Live', 'dates.title': 'Dates', 'dates.upcoming': 'Upcoming dates', 'dates.past': 'Past dates',
-      'dates.tickets': 'Tickets', 'dates.soldout': 'Sold out', 'dates.soon': 'Info soon',
+      'dates.tickets': 'Tickets', 'dates.info': 'Info', 'dates.soldout': 'Sold out', 'dates.soon': 'Info soon',
       'dates.empty.title': 'New dates coming soon', 'dates.empty.text': 'Want GISELZ at your club, festival or event?',
       'dates.empty.cta': 'Request a date', 'dates.demo': 'Demo mode · sample data, not real dates',
       'dates.demo.city': 'Sample city', 'dates.demo.venue': 'Sample venue',
@@ -139,6 +140,7 @@
       'gallery.kicker': 'Photos', 'gallery.title': 'Gallery', 'gallery.open': 'Enlarge photo',
       'lb.close': 'Close', 'lb.prev': 'Previous photo', 'lb.next': 'Next photo',
       'videos.kicker': 'In action', 'videos.title': 'Videos', 'videos.play': 'Play video', 'videos.open': 'Watch on',
+      'videos.ig': 'Reels on Instagram', 'videos.tt': 'Videos on TikTok',
       'press.kicker': 'For media & promoters', 'press.title': 'Press',
       'press.kit': 'Press kit', 'press.kitSub': 'Download PDF',
       'press.photos': 'Hi-res photos', 'press.logos': 'Logos', 'press.download': 'Download',
@@ -359,9 +361,11 @@
     try { u = new URL(url); } catch (e) { return null; }
     const host = u.hostname.replace(/^(www|m|on)\./, '');
     if (host.endsWith('soundcloud.com')) {
-      const isSet = u.pathname.includes('/sets/');
+      // Un perfil (soundcloud.com/usuario) o una playlist (/sets/) se ven como lista
+      const parts = u.pathname.split('/').filter(Boolean);
+      const isList = parts.length === 1 || parts.includes('sets') || ['tracks', 'popular-tracks', 'albums'].includes(parts[1]);
       return {
-        platform: 'soundcloud', height: isSet ? 450 : 166,
+        platform: 'soundcloud', height: isList ? 450 : 166,
         src: 'https://w.soundcloud.com/player/?url=' + encodeURIComponent(url.split('?')[0]) +
           '&color=%23ff2e93&auto_play=true&hide_related=true&show_comments=false&show_reposts=false&visual=false',
       };
@@ -493,13 +497,15 @@
       if (g.agotado) cta = el('span', { class: 'gig__tag gig__tag--soldout' }, t('dates.soldout'));
       else if (g.entradas && !isPending(g.entradas)) {
         cta = el('a', Object.assign({ class: 'btn btn--ink', href: g.entradas }, extAttrs(g.entradas)), t('dates.tickets'), icon('arrow'));
+      } else if (g.info && !isPending(g.info)) {
+        cta = el('a', Object.assign({ class: 'btn btn--ink', href: g.info }, extAttrs(g.info)), t('dates.info'), icon('arrow'));
       } else cta = el('span', { class: 'gig__tag gig__tag--soon' }, t('dates.soon'));
     }
     return el('li', { class: 'gig' + (past ? ' gig--past' : ' reveal') },
       date,
       el('div', { class: 'gig__info' },
         el('p', { class: 'gig__city' }, textOr(g.ciudad, 'ciudad')),
-        el('p', { class: 'gig__venue' }, textOr(g.sala, 'sala'))),
+        el('p', { class: 'gig__venue' }, g.evento ? `${g.evento} · ` : '', textOr(g.sala, 'sala'))),
       cta ? el('div', { class: 'gig__cta' }, cta) : null);
   }
   function renderDates() {
@@ -544,12 +550,13 @@
         '@context': 'https://schema.org',
         '@graph': events.map((g) => {
           const ev = {
-            '@type': 'MusicEvent', name: `GISELZ @ ${g.sala}`, startDate: g.fecha,
+            '@type': 'MusicEvent', name: g.evento ? `${g.evento} · GISELZ` : `GISELZ @ ${g.sala}`, startDate: g.fecha,
             eventStatus: 'https://schema.org/EventScheduled',
             eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
             location: { '@type': 'Place', name: g.sala, address: { '@type': 'PostalAddress', addressLocality: g.ciudad } },
             performer: { '@type': 'Person', name: 'GISELZ' },
           };
+          if (g.info && isExternal(g.info)) ev.url = g.info;
           if (g.entradas && isExternal(g.entradas)) {
             ev.offers = { '@type': 'Offer', url: g.entradas, availability: g.agotado ? 'https://schema.org/SoldOut' : 'https://schema.org/InStock' };
           }
@@ -655,8 +662,32 @@
   });
 
   /* ---------- 8. Vídeos ---------- */
+  // Mientras no haya vídeos, tarjetas que llevan a sus reels de Instagram y a su TikTok
+  function profileCards() {
+    const r = D.redes || {};
+    const fotos = (D.galeria || []).filter((f) => f && f.foto);
+    const igUrl = r.instagram && !isPending(r.instagram) ? r.instagram.replace(/\/?(\?.*)?$/, '/') + 'reels/' : '';
+    const ttUrl = r.tiktok && !isPending(r.tiktok) ? r.tiktok : '';
+    const handle = (url) => (url.match(/(?:instagram\.com\/|@)([\w.]+)/) || [])[1] || '';
+    return [['instagram', igUrl, 'videos.ig'], ['tiktok', ttUrl, 'videos.tt']].filter(([, url]) => url).map(([k, url, key], i) => {
+      const foto = fotos.length ? fotos[(i * 2 + 1) % fotos.length].foto : '';
+      const cover = foto
+        ? el('span', { class: 'reel__cover duo' }, el('img', { src: foto, alt: '', loading: 'lazy', decoding: 'async' }))
+        : el('span', { class: 'reel__cover placeholder placeholder--dark' });
+      return el('article', { class: 'reel reveal', style: `--d:${i * 90}ms` },
+        el('a', Object.assign({ class: 'reel__facade', href: url }, extAttrs(url)),
+          cover, el('span', { class: 'reel__shade' }),
+          el('span', { class: 'reel__badge' }, icon(PLATFORM[k].icon), PLATFORM[k].name),
+          el('span', { class: 'reel__play', 'aria-hidden': 'true' }, icon('arrow')),
+          el('span', { class: 'reel__title' }, el('span', { 'data-i18n': key }, t(key)), handle(url) ? el('span', { class: 'reel__handle' }, '@' + handle(url)) : null)));
+    });
+  }
   function renderVideos() {
     const row = $('#reels');
+    if (!(D.videos || []).some((v) => v && !isPending(v.url))) {
+      const cards = profileCards();
+      if (cards.length) return row.replaceChildren(...cards);
+    }
     const list = (D.videos || []).length ? D.videos : [{}, {}, {}];
     row.replaceChildren(...list.map((v, i) => {
       const card = el('article', { class: 'reel reveal', style: `--d:${(i % 4) * 90}ms` });
