@@ -1,3 +1,262 @@
-# giseelz-web
+# GISEEELZ · Web oficial
 
-Web oficial de GISEEELZ (DJ open format).
+Web oficial de **GISEEELZ**, DJ open format ([@GISEEELZ](https://www.instagram.com/giseeelz/)).
+Es una web de una sola página, rápida y pensada para móvil (la mayoría de visitas llegan desde el link de la bio de Instagram). Está en español e inglés, con un selector ES / EN arriba.
+
+**Todo el contenido se cambia en un solo archivo: [`assets/js/datos.js`](assets/js/datos.js).**
+No hace falta tocar nada más ni saber programar.
+
+---
+
+## Índice
+
+1. [Cómo editar algo (paso a paso)](#1-cómo-editar-algo-paso-a-paso)
+2. [Cambiar las fechas](#2-cambiar-las-fechas)
+3. [Cambiar enlaces: email, WhatsApp, redes, música y vídeos](#3-cambiar-enlaces)
+4. [Cambiar fotos, logo y presskit](#4-cambiar-fotos-logo-y-presskit)
+5. [Cambiar textos: bio, frase de portada, logros, clubs y estilos](#5-cambiar-textos)
+6. [Publicar la web gratis con GitHub Pages](#6-publicar-la-web-gratis-con-github-pages)
+7. [Si algo se rompe](#7-si-algo-se-rompe)
+8. [Lista de cosas pendientes](#8-lista-de-cosas-pendientes)
+9. [Estructura de archivos](#9-estructura-de-archivos)
+
+---
+
+## 1. Cómo editar algo (paso a paso)
+
+Todo se puede hacer desde la web de GitHub, sin instalar nada:
+
+1. Entra en el repositorio y abre la carpeta `assets` → `js` → **`datos.js`**.
+2. Pulsa el **lápiz ✏️** (arriba a la derecha, "Edit this file").
+3. Cambia lo que necesites. **Solo lo que va entre comillas `"así"`.**
+4. Pulsa el botón verde **"Commit changes…"** y otra vez **"Commit changes"**.
+5. Espera 1-2 minutos y recarga la web. Ya está.
+
+Tres reglas de oro para no romper nada:
+
+- Cambia solo el texto que va **entre comillas**. No borres las comillas.
+- Cada elemento de una lista va separado por una **coma** al final.
+- Las líneas que empiezan por `//` son notas: la web las ignora. Sirven de ejemplo.
+
+Todo lo que pone **`[PENDIENTE: ...]`** está esperando un dato real. En la web se ve como una etiqueta rayada para que sea fácil de localizar; en cuanto rellenas el dato, desaparece.
+
+---
+
+## 2. Cambiar las fechas
+
+Abre `datos.js` y busca el apartado **`1. PRÓXIMAS FECHAS`**. Cada bolo es una línea así:
+
+```js
+{ fecha: "2026-11-14", ciudad: "Madrid", sala: "Nombre del club", entradas: "https://enlace-a-entradas.com", agotado: false },
+```
+
+| Campo      | Qué poner                                                                 |
+|------------|---------------------------------------------------------------------------|
+| `fecha`    | Año-mes-día, con guiones: `"2026-11-14"` es el 14 de noviembre de 2026.   |
+| `ciudad`   | La ciudad.                                                                |
+| `sala`     | El club, sala, evento o festival.                                         |
+| `entradas` | El enlace para comprar entradas. Si no hay, déjalo vacío: `""`.           |
+| `agotado`  | `true` si están agotadas (sale un sello **SOLD OUT**). Si no, `false`.    |
+
+**Ejemplo con tres bolos** (los nombres son inventados, solo para ver el formato):
+
+```js
+const FECHAS = [
+  { fecha: "2026-11-14", ciudad: "Madrid",    sala: "Club Ejemplo",       entradas: "https://...", agotado: false },
+  { fecha: "2026-11-28", ciudad: "Barcelona", sala: "Sala Ejemplo",       entradas: "",            agotado: false },
+  { fecha: "2026-12-31", ciudad: "Valencia",  sala: "Nochevieja Ejemplo", entradas: "https://...", agotado: true  },
+];
+```
+
+- **No hace falta ordenarlas**: la web las ordena sola.
+- **No hace falta borrar las fechas pasadas**: al día siguiente del bolo se mueven solas a "Fechas pasadas", que sale plegado y atenuado debajo.
+- Si escribes mal una fecha (por ejemplo `14/11/2026`), la web te avisa con una etiqueta `[PENDIENTE]` diciendo cuál es.
+- Si no hay ninguna fecha próxima, sale un bloque de "Nuevas fechas muy pronto" con un botón a Booking.
+- **Truco para probar**: añade `?demo` al final de la dirección de la web (por ejemplo `https://rocosa00.github.io/giseelz-web/?demo`) y verás cómo queda con fechas de ejemplo, sin tocar nada.
+
+---
+
+## 3. Cambiar enlaces
+
+### Email, WhatsApp e Instagram de booking
+Apartado **`2. CONTACTO DE BOOKING`**:
+
+```js
+const CONTACTO = {
+  email: "booking@tudominio.com",
+  whatsapp: "34600111222",   // con prefijo del país (34 = España), sin "+" ni espacios
+  instagram: "giseeelz",     // sin @
+};
+```
+
+Con el email y el WhatsApp rellenos, el formulario de Booking funciona solo: al enviarlo se abre el WhatsApp o la app de correo de quien escribe, con el mensaje ya redactado (nombre, tipo de evento, fecha, ciudad y mensaje). No hace falta ningún servicio extra.
+
+### Redes sociales (pie de página)
+Apartado **`3. REDES SOCIALES`**. Pega el enlace completo de cada perfil. Las que estén vacías (`""`) no se muestran.
+
+### Música (reproductores)
+Apartado **`8. MÚSICA`**. Copia el enlace del mix tal cual desde **SoundCloud, Mixcloud, Spotify o YouTube** y pégalo en `url`. La web detecta sola la plataforma y pone su reproductor.
+
+```js
+const MUSICA = [
+  { titulo: "Open Format Mix Vol. 1", url: "https://soundcloud.com/usuario/nombre-del-mix" },
+  { titulo: "Live set",               url: "https://www.youtube.com/watch?v=XXXXXXXXXXX" },
+];
+```
+
+Puedes poner tantos como quieras. Los reproductores no se cargan hasta que alguien pulsa play, así la web sigue yendo rápida.
+
+### Vídeos (Reels, TikTok, YouTube)
+Apartado **`9. VÍDEOS`**. Igual que la música: pega el enlace del Reel de Instagram, del TikTok o del vídeo/Short de YouTube.
+
+- En **TikTok**, usa el enlace largo que contiene `/video/` (el que ves al abrir el vídeo en el ordenador), no el corto `vm.tiktok.com`.
+- `portada` es opcional: una imagen para la tarjeta antes de darle al play (en YouTube se coge sola).
+
+---
+
+## 4. Cambiar fotos, logo y presskit
+
+### Antes de subir una foto: hazla ligera
+Las fotos del móvil o del fotógrafo pesan mucho y harían la web lenta. Pásalas antes por **[squoosh.app](https://squoosh.app)** (gratis, en el navegador):
+
+| Uso                       | Tamaño recomendado                        | Peso objetivo |
+|---------------------------|-------------------------------------------|---------------|
+| Portada (`hero`)          | 1600 px de ancho                          | < 350 KB      |
+| Galería y foto de bio     | 1600 px por el lado largo                 | < 300 KB      |
+| Logo                      | PNG con fondo transparente, o SVG         | < 100 KB      |
+
+En Squoosh: arrastra la foto → a la derecha elige **MozJPEG** o **WebP**, calidad 75-80 → en "Resize" pon el ancho → **Download**.
+
+Usa nombres **sin espacios, tildes ni ñ**: `foto-01.jpg`, `hero.jpg`, `logo.png`.
+
+### Cómo subir archivos a GitHub
+1. Entra en la carpeta donde va el archivo (por ejemplo `assets/img/galeria`).
+2. **Add file → Upload files** → arrastra los archivos → **Commit changes**.
+
+### Galería
+1. Sube las fotos a `assets/img/galeria/`.
+2. En `datos.js`, apartado **`10. GALERÍA`**, añade una línea por foto:
+
+```js
+const GALERIA = [
+  { foto: "assets/img/galeria/foto-01.jpg", texto: "GISEEELZ pinchando en ..." },
+  { foto: "assets/img/galeria/foto-02.jpg", texto: "Backstage en ..." },
+];
+```
+
+`texto` es una descripción corta: se ve al ampliar la foto y ayuda a Google y a quien usa lector de pantalla.
+Las fotos salen en duotono rosa y negro y se ven a color al pasar el ratón. Al pulsarlas se abren a pantalla completa (en el móvil se desliza con el dedo entre ellas).
+
+### Logo, portada y foto de la bio
+Sube los archivos a `assets/img/` y escribe su ruta en el apartado **`11. IMÁGENES PRINCIPALES`**:
+
+```js
+const IMAGENES = {
+  logo: "assets/img/logo.png",
+  hero: "assets/img/hero.jpg",
+  heroVideo: "",              // opcional: vídeo corto .mp4 de fondo (5-15 s, sin sonido, < 4 MB)
+  bio: "assets/img/bio.jpg",
+};
+```
+
+Si `logo` está vacío, se usa el nombre GISEEELZ en tipografía (como ahora).
+
+### Presskit en PDF
+Sube el PDF a la carpeta `assets/presskit/` con el nombre exacto **`GISEEELZ-presskit.pdf`**. El botón de descarga se activa solo.
+Las **fotos en alta** y los **logos** se ponen en el apartado **`12. PRESS`** como enlace (una carpeta de Google Drive o Dropbox es lo más cómodo, porque pesan mucho para el repositorio).
+
+### Imagen al compartir el link (WhatsApp, Instagram…)
+Es `assets/img/og-image.jpg` (1200 × 630 px). Ahora mismo es un diseño con el nombre en neón. Si quieres usar una foto, sube otra con **el mismo nombre y tamaño**.
+Ojo: WhatsApp guarda la vista previa unos días; si no ves el cambio enseguida es normal.
+
+---
+
+## 5. Cambiar textos
+
+Todo en `datos.js`:
+
+- **Frase de portada y bio** → apartado `4. TEXTOS`. Cada texto tiene versión `es` (español) y `en` (inglés). La bio larga es una lista de párrafos: cada frase entre comillas es un párrafo.
+- **Logros / highlights** → apartado `5. LOGROS`. Frases cortas.
+- **Estilos de la cinta que se mueve** → apartado `6. ESTILOS`.
+- **Clubs, eventos y festivales** → apartado `7. CLUBS`. Solo el nombre, o nombre + logo:
+  ```js
+  const CLUBS = [
+    "Nombre del club",
+    { nombre: "Otro club", logo: "assets/img/clubs/otro-club.png" },
+  ];
+  ```
+
+Los textos fijos de la web (menú, botones, formulario…) ya están traducidos a los dos idiomas.
+
+---
+
+## 6. Publicar la web gratis con GitHub Pages
+
+Solo hay que hacerlo **una vez**, después de aceptar (fusionar) el Pull Request en `main`:
+
+1. En el repositorio, entra en **Settings** (Configuración) → **Pages** (menú de la izquierda).
+2. En **Build and deployment → Source**, elige **Deploy from a branch**.
+3. En **Branch**, elige **`main`** y la carpeta **`/ (root)`** → **Save**.
+4. En 1-2 minutos la web estará en: **https://rocosa00.github.io/giseelz-web/**
+
+A partir de ahí, cada cambio que guardes en `main` se publica solo en 1-2 minutos.
+
+### ¿Dominio propio? (por ejemplo `giseeelz.com`)
+1. Cómpralo en cualquier registrador y sigue la guía de GitHub: *Settings → Pages → Custom domain*.
+2. En `index.html`, `robots.txt` y `sitemap.xml`, cambia `https://rocosa00.github.io/giseelz-web/` por tu dominio nuevo (usa "buscar y reemplazar"). Así la vista previa en WhatsApp y Google apuntan bien.
+
+---
+
+## 7. Si algo se rompe
+
+- Si cometes un error de escritura en `datos.js` (una coma o unas comillas de menos), la web muestra un **aviso rojo abajo** que dice **en qué línea** está el problema. Ve a esa línea y revisa comas y comillas.
+- Para **deshacer** un cambio: en GitHub abre `datos.js` → **History** → elige la versión anterior buena → copia su contenido y pégalo de nuevo.
+- Los errores más típicos:
+  - Olvidar las comillas: `ciudad: Madrid` ❌ → `ciudad: "Madrid"` ✅
+  - Olvidar la coma entre dos bolos: `} {` ❌ → `}, {` ✅
+  - Usar comillas "curvas" copiadas de Word o WhatsApp (`“ ”`) ❌ → comillas rectas `" "` ✅
+
+---
+
+## 8. Lista de cosas pendientes
+
+Todo esto sale en la web como etiqueta `[PENDIENTE]` hasta que se rellene:
+
+- [ ] Logo del presskit (`IMAGENES.logo`)
+- [ ] Foto de portada y foto de la bio (`IMAGENES.hero`, `IMAGENES.bio`)
+- [ ] Bio corta y bio larga, en español e inglés (`TEXTOS`)
+- [ ] Logros / highlights (`LOGROS`)
+- [ ] Confirmar la lista de estilos con el presskit (`GENEROS`)
+- [ ] Clubs, eventos y festivales donde ha pinchado (`CLUBS`)
+- [ ] Fotos de la galería (`GALERIA`)
+- [ ] Enlaces de mixes (`MUSICA`) y vídeos (`VIDEOS`)
+- [ ] Próximas fechas (`FECHAS`)
+- [ ] Email y WhatsApp de booking (`CONTACTO`)
+- [ ] Resto de redes: TikTok, SoundCloud, Mixcloud, Spotify, YouTube (`REDES`)
+- [ ] PDF del presskit en `assets/presskit/GISEEELZ-presskit.pdf`
+- [ ] Enlaces a fotos y logos en alta (`PRESS`)
+- [ ] Si la lista de estilos cambia, actualizar también las descripciones de `index.html` (las líneas con `description`), que son las que salen en Google y al compartir
+
+---
+
+## 9. Estructura de archivos
+
+```
+index.html              La página (estructura y textos para Google). No hace falta tocarla.
+assets/
+  js/datos.js           ← AQUÍ SE EDITA TODO EL CONTENIDO
+  js/main.js            La lógica de la web (no tocar)
+  css/styles.css        Colores, tipografías y diseño. Los colores están arriba del todo (:root)
+  img/                  Logo, portada, foto de bio, favicon e imagen para compartir
+  img/galeria/          Fotos de la galería
+  presskit/             El presskit en PDF para descargar
+  fonts/                Tipografías (Anton, Inter y Permanent Marker, licencia libre)
+robots.txt, sitemap.xml Para Google
+.nojekyll               Necesario para GitHub Pages (no borrar)
+```
+
+### Detalles técnicos (para quien programe)
+- HTML + CSS + JavaScript sin dependencias ni paso de compilación. Para verla en local basta con un servidor estático (`python3 -m http.server`).
+- Mobile first; fuentes auto-alojadas y precargadas; imágenes con `loading="lazy"`; los reproductores de SoundCloud, Mixcloud, Spotify, YouTube, Instagram y TikTok solo se cargan al pulsar play (fachada), lo que además evita cookies de terceros hasta ese momento.
+- Respeta `prefers-reduced-motion` (sin animaciones) y el modo ahorro de datos (no carga el vídeo de portada).
+- SEO: título, descripción, Open Graph y Twitter Card, datos estructurados `Person` y `MusicEvent` (este último se genera con las próximas fechas).

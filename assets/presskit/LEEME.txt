@@ -1,0 +1,6 @@
+Sube aquí el presskit en PDF con este nombre exacto:
+
+    GISEEELZ-presskit.pdf
+
+En cuanto esté subido, el botón "Presskit · Descargar PDF" de la web se activa solo.
+Si quieres usar otro nombre, cámbialo también en assets/js/datos.js (apartado 12. PRESS).
