@@ -115,6 +115,7 @@
       'form.date': 'Fecha', 'form.city': 'Ciudad', 'form.msg': 'Mensaje', 'form.msgPh': 'Aforo, horario del set, tipo de público…',
       'form.sendWa': 'Enviar por WhatsApp', 'form.sendMail': 'Enviar por email',
       'form.note': 'Se abrirá tu WhatsApp o tu app de correo con el mensaje listo para enviar.',
+      'form.noteMail': 'Se abrirá tu app de correo con el mensaje listo para enviar.',
       'form.ok': '¡Listo! Ya solo te queda darle a enviar.',
       'form.off': 'Este canal todavía no está activo. Mientras tanto, escribe por Instagram a @giseeelz.',
       'form.hello': '¡Hola GISELZ! Te escribo desde tu web por un booking:',
@@ -154,6 +155,7 @@
       'form.date': 'Date', 'form.city': 'City', 'form.msg': 'Message', 'form.msgPh': 'Capacity, set time, crowd…',
       'form.sendWa': 'Send via WhatsApp', 'form.sendMail': 'Send via email',
       'form.note': 'Your WhatsApp or email app will open with the message ready to send.',
+      'form.noteMail': 'Your email app will open with the message ready to send.',
       'form.ok': 'Done! Just hit send.',
       'form.off': 'This channel isn’t active yet. Meanwhile, DM @giseeelz on Instagram.',
       'form.hello': 'Hi GISELZ! Booking enquiry from your website:',
@@ -842,10 +844,11 @@
   function renderContact() {
     const rows = [
       { key: 'contact.email', icon: 'mail', value: email, href: email && `mailto:${email}`, missing: 'email de booking' },
-      { key: 'contact.wa', icon: 'whatsapp', value: wa && prettyPhone(wa), href: wa && `https://wa.me/${wa}`, missing: 'número de WhatsApp' },
+      // Sin número en datos.js, la fila de WhatsApp no se muestra
+      wa ? { key: 'contact.wa', icon: 'whatsapp', value: prettyPhone(wa), href: `https://wa.me/${wa}` } : null,
       { key: 'contact.ig', icon: 'instagram', value: '@' + ig, handle: true, href: `https://www.instagram.com/${ig}/` },
     ];
-    $('#contact-list').replaceChildren(...rows.map((r) => {
+    $('#contact-list').replaceChildren(...rows.filter(Boolean).map((r) => {
       const inner = [
         el('span', { class: 'contact__icon', 'aria-hidden': 'true' }, icon(r.icon)),
         el('span', {}, el('span', { class: 'contact__label', 'data-i18n': r.key }, t(r.key)),
@@ -857,6 +860,14 @@
     }));
   }
   const form = $('#booking-form');
+  if (!wa) {
+    // Sin WhatsApp: solo se envía por email, y ese pasa a ser el botón principal
+    const waBtn = $('button[value="whatsapp"]', form);
+    if (waBtn) waBtn.remove();
+    const mailBtn = $('button[value="email"]', form);
+    if (mailBtn) mailBtn.classList.replace('btn--outline', 'btn--pink');
+    $('.form__note', form).dataset.i18n = 'form.noteMail';
+  }
   const dateInput = $('#f-fecha');
   dateInput.min = new Date(Date.now() - new Date().getTimezoneOffset() * 60000).toISOString().slice(0, 10);
   form.addEventListener('submit', (e) => {
