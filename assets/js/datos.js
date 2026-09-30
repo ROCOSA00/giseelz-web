@@ -28,7 +28,7 @@
    mueve sola a "Fechas pasadas" y las muestra atenuadas.
 
    Truco: para ver cómo queda con fechas de prueba, abre la web añadiendo
-   ?demo al final de la dirección (ej. https://.../giseelz-web/?demo).
+   ?demo al final de la dirección (ej. https://giseelz-web.vercel.app/?demo).
    -------------------------------------------------------------------------- */
 const FECHAS = [
   // Copia esta línea, quítale las dos barras del principio y rellénala:
