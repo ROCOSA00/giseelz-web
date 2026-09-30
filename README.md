@@ -88,12 +88,14 @@ Apartado **`2. CONTACTO DE BOOKING`**:
 ```js
 const CONTACTO = {
   email: "giselzramon@gmail.com",
-  whatsapp: "34652932722",   // con prefijo del país (34 = España), sin "+" ni espacios
+  whatsapp: "",              // vacío = no sale ningún teléfono. Ej. "34600111222" (34 = España, sin "+" ni espacios)
   instagram: "giseeelz",     // sin @
 };
 ```
 
-Con el email y el WhatsApp rellenos, el formulario de Booking funciona solo: al enviarlo se abre el WhatsApp o la app de correo de quien escribe, con el mensaje ya redactado (nombre, tipo de evento, fecha, ciudad y mensaje). No hace falta ningún servicio extra.
+El formulario de Booking funciona solo: al enviarlo se abre la app de correo de quien escribe, con el mensaje ya redactado (nombre, tipo de evento, fecha, ciudad y mensaje). No hace falta ningún servicio extra.
+
+Ahora mismo `whatsapp` está vacío a propósito, para que **el número de teléfono no salga en la web**: no hay fila de WhatsApp, ni icono, ni botón "Enviar por WhatsApp". Si algún día se quiere volver a poner, basta con escribir el número; el botón y el icono vuelven a salir solos.
 
 ### Redes sociales (menú y pie de página)
 Apartado **`3. REDES SOCIALES`**. Pega el enlace completo de cada perfil. Las que estén vacías (`""`) no se muestran.

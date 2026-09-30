@@ -48,7 +48,8 @@ const CONTACTO = {
   email: "giselzramon@gmail.com",
 
   // Número de WhatsApp: con prefijo de país, sin "+" ni espacios (34 = España).
-  whatsapp: "34652932722",
+  // Vacío = el número no sale en la web (ni botones ni iconos de WhatsApp).
+  whatsapp: "",
 
   // Usuario de Instagram (sin @)
   instagram: "giseeelz",
