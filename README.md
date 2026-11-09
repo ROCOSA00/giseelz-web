@@ -3,7 +3,7 @@
 Web oficial de **GISELZ**, DJ open format de Barcelona (Instagram [@giseeelz](https://www.instagram.com/giseeelz/)).
 Es una web de una sola página, rápida y pensada para móvil (la mayoría de visitas llegan desde el link de la bio de Instagram). Está en español e inglés, con un selector ES / EN arriba.
 
-Todo el contenido (logo, fotos, bio, estilos, clubs, fiestas, contacto y enlaces de Spotify y Linktree) sale del presskit, que también se puede descargar desde la web.
+Todo el contenido (logo, fotos, bio, estilos, clubs, fiestas, contacto y Linktree) sale del presskit, que también se puede descargar desde la web.
 
 **Todo el contenido se cambia en un solo archivo: [`assets/js/datos.js`](assets/js/datos.js).**
 No hace falta tocar nada más ni saber programar.
@@ -46,35 +46,45 @@ Todo lo que pone **`[PENDIENTE: ...]`** está esperando un dato real. En la web 
 
 ## 2. Cambiar las fechas
 
-Abre `datos.js` y busca el apartado **`1. PRÓXIMAS FECHAS`**. Cada bolo es una línea así:
+### La forma fácil: la hoja de Google (desde el móvil)
+Las fechas se apuntan en una hoja de Google y **la web las coge sola**: no hay que tocar GitHub ni código.
+
+**Hoja:** https://docs.google.com/spreadsheets/d/17Vx0dRTTy1sbMetWP6FitLhCPFTmKEhOeR3MeYBsKwk/edit
+
+**Antes de empezar (solo una vez):**
+1. Abre la hoja → **Compartir** → en "Acceso general" elige **Cualquier persona con el enlace** → rol **Lector** → Hecho. Sin esto la web no puede leerla (las fechas siguen siendo públicas igualmente, porque salen en la web).
+2. Si la va a rellenar otra persona (por ejemplo la propia GISELZ), en ese mismo menú **Compartir** añade su email como **Editor**.
+3. **Archivo → Configuración → Configuración regional: España**, para que `05/11/2026` se entienda como 5 de noviembre (y no como 11 de mayo, que es como lo leen en EE. UU.).
+
+**Para añadir un bolo:** abre la hoja (en el móvil, con la app Hojas de cálculo de Google), escribe una fila nueva y listo. En 1 minuto sale en la web.
+
+| Columna    | Qué poner                                                                 |
+|------------|---------------------------------------------------------------------------|
+| `Fecha`    | Día/mes/año: `14/11/2026`.                                                |
+| `Ciudad`   | La ciudad.                                                                |
+| `Sala`     | El club, sala o festival.                                                 |
+| `Evento`   | (Opcional) el nombre de la fiesta. Sale delante de la sala: "Vive Fomo · Espai Titus". |
+| `Entradas` | (Opcional) el enlace para comprar entradas. Sale un botón **Entradas**.   |
+| `Info`     | (Opcional) un enlace con más información, o un usuario de Instagram como `@vivefomo`. Si no hay entradas, sale un botón **Info**. |
+| `Agotado`  | `sí` si están agotadas (sale un sello **SOLD OUT**). Si no, déjalo vacío o pon `no`. |
+
+- No cambies los nombres de la primera fila (Fecha, Ciudad, Sala…): la web busca las columnas por ese nombre.
+- La próxima fecha sale también arriba del todo, en la barra de las redes (en ordenador).
+- Para usar otra hoja, pega su enlace en `datos.js`, apartado `1. PRÓXIMAS FECHAS` (`HOJA_FECHAS`).
+
+### También se pueden poner en `datos.js`
+En el apartado **`1. PRÓXIMAS FECHAS`**, debajo de `HOJA_FECHAS`, cada bolo es una línea así (se suman a los de la hoja; si uno está en los dos sitios, sale una sola vez):
 
 ```js
 { fecha: "2026-10-11", ciudad: "Badalona", sala: "Espai Titus", evento: "Vive Fomo", info: "https://www.instagram.com/vivefomo/" },
 ```
 
-| Campo      | Qué poner                                                                 |
-|------------|---------------------------------------------------------------------------|
-| `fecha`    | Año-mes-día, con guiones: `"2026-11-14"` es el 14 de noviembre de 2026.   |
-| `ciudad`   | La ciudad.                                                                |
-| `sala`     | El club, sala o festival.                                                 |
-| `evento`   | (Opcional) el nombre de la fiesta. Sale delante de la sala: "Vive Fomo · Espai Titus". |
-| `entradas` | El enlace para comprar entradas. Si no hay, déjalo vacío: `""`.           |
-| `info`     | (Opcional) un enlace con más información, por ejemplo el Instagram de la fiesta. Si no hay entradas, sale un botón **Info** que lleva ahí. |
-| `agotado`  | `true` si están agotadas (sale un sello **SOLD OUT**). Si no, `false`.    |
+`fecha` va como año-mes-día (`"2026-11-14"`) o día/mes/año (`"14/11/2026"`); `agotado: true` pone el sello de SOLD OUT. Las demás columnas son las mismas que en la hoja.
 
-**Ejemplo con tres bolos** (los nombres son inventados, solo para ver el formato):
-
-```js
-const FECHAS = [
-  { fecha: "2026-11-14", ciudad: "Madrid",    sala: "Club Ejemplo",       entradas: "https://...", agotado: false },
-  { fecha: "2026-11-28", ciudad: "Barcelona", sala: "Sala Ejemplo",       entradas: "",            agotado: false },
-  { fecha: "2026-12-31", ciudad: "Valencia",  sala: "Nochevieja Ejemplo", entradas: "https://...", agotado: true  },
-];
-```
-
+### En los dos casos
 - **No hace falta ordenarlas**: la web las ordena sola.
 - **No hace falta borrar las fechas pasadas**: al día siguiente del bolo se mueven solas a "Fechas pasadas", que sale plegado y atenuado debajo.
-- Si escribes mal una fecha (por ejemplo `14/11/2026`), la web te avisa con una etiqueta `[PENDIENTE]` diciendo cuál es.
+- Si una fecha no se entiende (por ejemplo "mañana"), la web te avisa con una etiqueta `[PENDIENTE]` diciendo cuál es.
 - Si no hay ninguna fecha próxima, sale un bloque de "Nuevas fechas muy pronto" con un botón a Booking.
 - **Truco para probar**: añade `?demo` al final de la dirección de la web (por ejemplo `https://giseelz-web.vercel.app/?demo`) y verás cómo queda con fechas de ejemplo, sin tocar nada.
 
@@ -99,10 +109,13 @@ Ahora mismo `whatsapp` está vacío a propósito, para que **el número de telé
 
 ### Redes sociales (menú y pie de página)
 Apartado **`3. REDES SOCIALES`**. Pega el enlace completo de cada perfil. Las que estén vacías (`""`) no se muestran.
-El Linktree (`linktree`) además sale como botón **"Escucha mis sets"** en la sección Música.
+Instagram, TikTok, SoundCloud y YouTube salen también en la **barra fina de arriba del todo**, visible en toda la web.
 
-### Música (reproductores)
-Apartado **`9. MÚSICA`**. Ahora mismo están la playlist y las tres canciones de Spotify de los códigos QR del presskit. Copia el enlace del mix tal cual desde **SoundCloud, Mixcloud, Spotify o YouTube** y pégalo en `url`. La web detecta sola la plataforma y pone su reproductor.
+### Música: el set destacado ("novedad")
+Apartado **`9. MÚSICA`** → `DESTACADO`. Es el set que sale **en grande** al principio de Música, con su miniatura, el título y un botón **Ver** (ahora, ZETASETS Vol.1). Para cambiarlo por uno nuevo, pega el enlace del vídeo de YouTube en `url` y cambia `titulo` y `subtitulo`. La imagen sale sola de YouTube.
+
+### Música: el resto de enlaces
+Debajo del destacado, `MUSICA`: ahora el perfil de **SoundCloud** (se escucha en la propia web) y los **sets de YouTube** (botón al canal). Copia el enlace tal cual desde **SoundCloud, Mixcloud, Spotify o YouTube** y pégalo en `url`. La web detecta sola la plataforma y pone su reproductor.
 
 ```js
 const MUSICA = [
@@ -111,7 +124,7 @@ const MUSICA = [
 ];
 ```
 
-El `titulo` puede ir en un idioma (`"Playlist"`) o en los dos: `{ es: "Selección 01", en: "Pick 01" }`.
+El `titulo` puede ir en un idioma (`"Live set"`) o en los dos: `{ es: "Sets en YouTube", en: "Sets on YouTube" }`.
 
 Puedes poner tantos como quieras. Los reproductores no se cargan hasta que alguien pulsa play, así la web sigue yendo rápida.
 
@@ -183,7 +196,9 @@ const IMAGENES = {
 
 ### Presskit en PDF
 Ya está subido en `assets/presskit/GISELZ-presskit.pdf`. Si haces uno nuevo, súbelo con **el mismo nombre** para sustituirlo.
-Las **fotos en alta** y los **logos** se ponen en el apartado **`13. PRESS`**. El logo ya apunta al PNG de la web; para las fotos en alta lo más cómodo es un enlace a una carpeta de Google Drive o Dropbox (pesan mucho para el repositorio).
+En el apartado **`13. PRESS`** están también:
+- **Foto de prensa** (`foto`): `assets/presskit/DSC07974.jpg`, que se descarga directamente desde la web. Para cambiarla, sube otra foto a `assets/presskit/` y pon su ruta (y en `fotoVista`, una copia pequeña de unos 720 px para que cargue rápido).
+- **Fotos en alta** (`fotos`) y **logos** (`logos`): enlaces a las carpetas de Google Drive. Lo que se añada a esas carpetas aparece solo, sin tocar la web.
 
 ### Imagen al compartir el link (WhatsApp, Instagram…)
 Es `assets/img/og-image.jpg` (1200 × 630 px): el logo, la foto de portada y los estilos. Si quieres cambiarla, sube otra con **el mismo nombre y tamaño**.
@@ -240,10 +255,8 @@ La web está publicada en **https://giseelz-web.vercel.app/** y Vercel está con
 
 Ya está todo lo que venía en el presskit, más la primera fecha, SoundCloud, TikTok y 4 reels. Falta:
 
-- [ ] Ir añadiendo las próximas fechas (`FECHAS`)
-- [ ] Nombre de cada canción de Spotify, si se quiere mostrar en vez de "Selección 01, 02, 03" (`MUSICA`)
-- [ ] Mixcloud, perfil de Spotify o YouTube, solo si los tiene (`REDES`)
-- [ ] Enlace a las fotos originales en alta resolución (`PRESS.fotos`)
+- [ ] Compartir la hoja de fechas como "Cualquier persona con el enlace: Lector" (ver apartado 2) e ir añadiendo bolos
+- [ ] Mixcloud o perfil de Spotify, solo si los tiene (`REDES`)
 - [ ] Fotos originales para sustituir las de la galería que venían como captura de Instagram (`giselz-02`, `04` y `05`)
 - [ ] Si la lista de estilos cambia, actualizar también las descripciones de `index.html` (las líneas con `description`), que son las que salen en Google y al compartir
 

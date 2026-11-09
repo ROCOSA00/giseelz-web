@@ -18,6 +18,17 @@
 /* --------------------------------------------------------------------------
    1. PRÓXIMAS FECHAS (bolos)
    --------------------------------------------------------------------------
+   LO MÁS FÁCIL: las fechas se apuntan en la hoja de Google de aquí abajo
+   (HOJA_FECHAS), desde el móvil, y la web las coge sola. Cómo se rellena:
+   mira el apartado "Cambiar las fechas" del README.
+
+   La hoja tiene que estar compartida como "Cualquier persona con el enlace:
+   Lector", si no la web no puede leerla.
+   -------------------------------------------------------------------------- */
+const HOJA_FECHAS = "https://docs.google.com/spreadsheets/d/17Vx0dRTTy1sbMetWP6FitLhCPFTmKEhOeR3MeYBsKwk/edit";
+
+/* También se pueden poner fechas aquí directamente (se suman a las de la hoja;
+   si una fecha está en los dos sitios, sale una sola vez):
    · fecha     → formato AAAA-MM-DD   (ej. "2026-11-14" = 14 nov 2026)
    · ciudad    → ciudad del bolo
    · sala      → club, sala o festival
@@ -32,7 +43,7 @@
 
    Truco: para ver cómo queda con fechas de prueba, abre la web añadiendo
    ?demo al final de la dirección (ej. https://giseelz-web.vercel.app/?demo).
-   -------------------------------------------------------------------------- */
+*/
 const FECHAS = [
   { fecha: "2026-10-11", ciudad: "Badalona", sala: "Espai Titus", evento: "Vive Fomo", info: "https://www.instagram.com/vivefomo/" },
 
@@ -68,7 +79,7 @@ const REDES = {
   soundcloud: "https://soundcloud.com/giselz",
   mixcloud:   "", // [PENDIENTE: perfil de Mixcloud, si lo hay]
   spotify:    "", // [PENDIENTE: perfil de Spotify, si lo hay]
-  youtube:    "", // [PENDIENTE: canal de YouTube, si lo hay]
+  youtube:    "https://www.youtube.com/@giselzmusic",
 };
 
 
@@ -177,19 +188,28 @@ const EVENTOS = [
 
 
 /* --------------------------------------------------------------------------
-   9. MÚSICA (reproductores)
+   9. MÚSICA
    --------------------------------------------------------------------------
+   DESTACADO: el set que sale en grande al principio de Música, como novedad.
+   Para cambiarlo, pega el enlace del nuevo vídeo de YouTube y cambia el título.
+   · portada → (opcional) imagen propia; vacío = la miniatura de YouTube
+   -------------------------------------------------------------------------- */
+const DESTACADO = {
+  etiqueta: { es: "Novedad", en: "New" },
+  titulo: "Zetasets Vol.1",
+  subtitulo: { es: "Tech house & latin tech · DJ set completo", en: "Tech house & latin tech · Full DJ set" },
+  url: "https://www.youtube.com/watch?v=9FRQsvtrjdY",
+  portada: "",
+};
+
+/* Debajo del destacado, el resto de enlaces de música.
    Pega el enlace tal cual lo copias de SoundCloud, Mixcloud, Spotify o
    YouTube: la web detecta sola de qué plataforma es y pone su reproductor.
-   Si pegas el enlace del perfil de SoundCloud, sale la lista de todos sus sets.
-   Los de Spotify son los de los códigos QR del presskit.
-   -------------------------------------------------------------------------- */
+   El perfil de SoundCloud sale como lista de todos sus sets; el canal de
+   YouTube, como botón que lleva a todos los vídeos. */
 const MUSICA = [
   { titulo: { es: "Sets en SoundCloud", en: "Sets on SoundCloud" }, url: "https://soundcloud.com/giselz" },
-  { titulo: "Playlist", url: "https://open.spotify.com/playlist/2kl0wCkvyy1if9LLLxrITC" },
-  { titulo: { es: "Selección 01", en: "Pick 01" }, url: "https://open.spotify.com/track/4dyx5SzxPPaD8xQIid5Wjj" },
-  { titulo: { es: "Selección 02", en: "Pick 02" }, url: "https://open.spotify.com/track/4gv9eyEf7cXViNTBXS2g5C" },
-  { titulo: { es: "Selección 03", en: "Pick 03" }, url: "https://open.spotify.com/track/0scnE7Y7YLjKyEfCmDXvSZ" },
+  { titulo: { es: "Sets en YouTube", en: "Sets on YouTube" }, url: "https://www.youtube.com/@giselzmusic/videos" },
   // Para añadir un set concreto: { titulo: "Nombre del set", url: "https://soundcloud.com/giselz/nombre-del-set" },
 ];
 
@@ -259,12 +279,15 @@ const IMAGENES = {
    13. PRESS (descargas para medios y promotores)
    --------------------------------------------------------------------------
    · presskit → el PDF dentro de assets/presskit/
-   · fotos    → enlace a las fotos en alta (carpeta de Google Drive, Dropbox,
-                WeTransfer...) o a un .zip dentro de assets/presskit/
-   · logos    → enlace o archivo del logo
+   · foto     → foto de prensa que se descarga directamente desde la web
+   · fotoVista → (opcional) la misma foto más pequeña, para que la web cargue rápido
+   · fotos    → carpeta con todas las fotos en alta (Google Drive)
+   · logos    → carpeta con los logos (Google Drive)
    -------------------------------------------------------------------------- */
 const PRESS = {
   presskit: "assets/presskit/GISELZ-presskit.pdf",
-  fotos: "", // [PENDIENTE: enlace a las fotos originales en alta resolución]
-  logos: "assets/img/logo-giselz.png",
+  foto: "assets/presskit/DSC07974.jpg",
+  fotoVista: "assets/img/prensa-dsc07974.jpg", // versión ligera para enseñarla en la web
+  fotos: "https://drive.google.com/drive/folders/1V3szzAgTzSTG0LqUGvnSDULXiBD_IkYW",
+  logos: "https://drive.google.com/drive/folders/1AZbRgNkh9YMMBcxyNsnMAA4QDSMW1ESx",
 };

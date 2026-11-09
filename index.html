@@ -82,11 +82,18 @@
     <symbol id="i-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></symbol>
     <symbol id="i-prev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></symbol>
     <symbol id="i-next" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></symbol>
+    <symbol id="i-eye" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></symbol>
     <symbol id="i-plus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></symbol>
   </svg>
 
   <a class="skip" href="#bio" data-i18n="skip">Saltar al contenido</a>
   <div class="grain" aria-hidden="true"></div>
+
+  <!-- ============ BARRA DE REDES (arriba, en toda la web) ============ -->
+  <div class="topbar">
+    <nav class="topbar__socials" data-topsocials aria-label="Redes sociales"></nav>
+    <a class="topbar__next" id="topbar-next" href="#fechas" hidden></a>
+  </div>
 
   <!-- ============ CABECERA ============ -->
   <header class="site-head">
@@ -235,6 +242,10 @@
           <p class="kicker"><span class="kicker__num">02</span><span data-i18n="music.kicker">Dale al play</span></p>
           <h2 class="mega reveal" id="music-title" data-i18n="music.title" data-text="Música">Música</h2>
         </header>
+      </div>
+      <!-- Set destacado (se cambia en datos.js → DESTACADO) -->
+      <div class="feature" id="feature" hidden></div>
+      <div class="wrap">
         <div class="players" id="players"></div>
         <div class="platforms" id="platforms"></div>
       </div>

@@ -160,8 +160,13 @@
   /* ---------- Saltos del menú y botones (#bio, #booking...) ---------- */
   function targetY(el) {
     const mark = el.previousElementSibling;
-    if (mark && mark.classList.contains('stack-mark')) return mark.getBoundingClientRect().top + window.scrollY;
-    return el.getBoundingClientRect().top + window.scrollY;
+    const base = (mark && mark.classList.contains('stack-mark') ? mark : el).getBoundingClientRect().top + window.scrollY;
+    // El título de la sección queda justo debajo de la cabecera (no escondido detrás)
+    const head = el.querySelector('.sec-head');
+    if (!head || el.querySelector('.hscroll')) return base;
+    const headBottom = $('.site-head').getBoundingClientRect().bottom;
+    const inner = head.getBoundingClientRect().top - el.getBoundingClientRect().top;
+    return Math.max(0, Math.round(base + inner - headBottom - 20));
   }
   document.addEventListener('click', (e) => {
     const a = e.target.closest && e.target.closest('a[href^="#"]');
@@ -303,7 +308,7 @@
       const lang = root.lang === 'en' ? 'en' : 'es';
       let text = '';
       if (el.closest('#gallery .shot:not(.shot--pending)')) text = labels.view[lang];
-      else if (el.closest('.player__facade, .reel__facade')) text = labels.play[lang];
+      else if (el.closest('.player__facade, .reel__facade, .feature__facade')) text = labels.play[lang];
       label.textContent = text;
       cursor.classList.toggle('is-label', !!text);
       cursor.classList.toggle('is-link', !text && !!el.closest('a, button, select, input, textarea, label, summary, [role="button"]'));

@@ -60,6 +60,8 @@
   }
   const D = {
     fechas: read(() => FECHAS, []),
+    hojaFechas: read(() => (typeof HOJA_FECHAS === 'undefined' ? '' : HOJA_FECHAS), ''),
+    destacado: read(() => (typeof DESTACADO === 'undefined' ? null : DESTACADO), null),
     contacto: read(() => CONTACTO, {}),
     redes: read(() => REDES, {}),
     textos: read(() => TEXTOS, {}),
@@ -92,7 +94,7 @@
       'genres.sr': 'Estilos: ',
       'bio.kicker': 'Quién es', 'bio.title': 'Bio', 'bio.more': 'Leer más', 'bio.less': 'Leer menos', 'bio.highlights': 'Highlights',
       'music.kicker': 'Dale al play', 'music.title': 'Música', 'music.play': 'Reproducir', 'music.more': 'Más música en',
-      'music.open': 'Escuchar en', 'music.sets': 'Escucha mis sets',
+      'music.open': 'Escuchar en', 'feature.watch': 'Ver', 'top.next': 'Próxima fecha',
       'dates.kicker': 'En directo', 'dates.title': 'Fechas', 'dates.upcoming': 'Próximas fechas', 'dates.past': 'Fechas pasadas',
       'dates.tickets': 'Entradas', 'dates.info': 'Info', 'dates.soldout': 'Sold out', 'dates.soon': 'Info pronto',
       'dates.empty.title': 'Nuevas fechas muy pronto', 'dates.empty.text': '¿Quieres a GISELZ en tu club, festival o evento?',
@@ -107,6 +109,7 @@
       'press.kicker': 'Para medios y promotores', 'press.title': 'Press',
       'press.kit': 'Presskit', 'press.kitSub': 'Descargar PDF',
       'press.photos': 'Fotos en alta', 'press.logos': 'Logos', 'press.download': 'Descargar',
+      'press.drive': 'Abrir carpeta en Drive', 'press.photo': 'Foto de prensa', 'press.photoSub': 'Descargar JPG',
       'booking.kicker': 'Contrataciones', 'booking.title': 'Booking',
       'booking.intro': 'Clubs, festivales, eventos privados y marcas. Cuéntanos tu idea y te respondemos.',
       'form.name': 'Nombre', 'form.type': 'Tipo de evento', 'form.typePick': 'Elige una opción',
@@ -132,7 +135,7 @@
       'genres.sr': 'Styles: ',
       'bio.kicker': 'Meet', 'bio.title': 'Bio', 'bio.more': 'Read more', 'bio.less': 'Read less', 'bio.highlights': 'Highlights',
       'music.kicker': 'Press play', 'music.title': 'Music', 'music.play': 'Play', 'music.more': 'More music on',
-      'music.open': 'Listen on', 'music.sets': 'Listen to my sets',
+      'music.open': 'Listen on', 'feature.watch': 'Watch', 'top.next': 'Next date',
       'dates.kicker': 'Live', 'dates.title': 'Dates', 'dates.upcoming': 'Upcoming dates', 'dates.past': 'Past dates',
       'dates.tickets': 'Tickets', 'dates.info': 'Info', 'dates.soldout': 'Sold out', 'dates.soon': 'Info soon',
       'dates.empty.title': 'New dates coming soon', 'dates.empty.text': 'Want GISELZ at your club, festival or event?',
@@ -147,6 +150,7 @@
       'press.kicker': 'For media & promoters', 'press.title': 'Press',
       'press.kit': 'Press kit', 'press.kitSub': 'Download PDF',
       'press.photos': 'Hi-res photos', 'press.logos': 'Logos', 'press.download': 'Download',
+      'press.drive': 'Open Drive folder', 'press.photo': 'Press photo', 'press.photoSub': 'Download JPG',
       'booking.kicker': 'Bookings', 'booking.title': 'Booking',
       'booking.intro': 'Clubs, festivals, private events and brands. Tell us about your event and we’ll get back to you.',
       'form.name': 'Name', 'form.type': 'Event type', 'form.typePick': 'Choose one',
@@ -416,6 +420,51 @@
     }, extra || {}));
   }
 
+  /* ---------- 4. Música: set destacado ("novedad") ---------- */
+  function renderFeature() {
+    const box = $('#feature');
+    const f = D.destacado;
+    if (!box) return;
+    if (!f || isPending(f.url)) { box.hidden = true; return; }
+    const info = parseMedia(f.url) || { link: f.url };
+    const p = PLATFORM[info.platform] || { name: 'Link', icon: 'arrow' };
+    const big = f.portada || (info.id ? `https://i.ytimg.com/vi/${info.id}/maxresdefault.jpg` : '');
+    const small = f.portada || (info.id ? `https://i.ytimg.com/vi/${info.id}/hqdefault.jpg` : '');
+    const title = tx(f.titulo);
+    const media = el('div', { class: 'feature__media' });
+    const play = () => {
+      if (!info.src) { window.open(info.link || f.url, '_blank', 'noopener'); return; }
+      const frame = iframe(info.src, title || p.name);
+      frame.removeAttribute('loading');
+      media.replaceChildren(frame);
+      media.classList.add('is-playing');
+    };
+    const cover = el('img', { src: big, alt: '', loading: 'lazy', decoding: 'async' });
+    cover.addEventListener('error', () => { if (small && cover.src !== small) cover.src = small; }, { once: true });
+    const facadeLabel = () => `${t('music.play')}: ${title}`;
+    const facade = el('button', { class: 'feature__facade', type: 'button', 'aria-label': facadeLabel() },
+      big ? cover : null,
+      el('span', { class: 'feature__play', 'aria-hidden': 'true' }, icon('play')));
+    langHooks.push(() => facade.setAttribute('aria-label', facadeLabel()));
+    facade.addEventListener('click', play);
+    media.append(facade);
+    const watch = el('button', { class: 'btn btn--outline btn--light', type: 'button' }, el('span', { 'data-i18n': 'feature.watch' }, t('feature.watch')), icon('eye'));
+    watch.addEventListener('click', () => { play(); media.scrollIntoView({ block: 'center', behavior: 'smooth' }); });
+    const outUrl = info.id ? `https://www.youtube.com/watch?v=${info.id}` : f.url;
+    box.replaceChildren(
+      small ? el('div', { class: 'feature__bg', 'aria-hidden': 'true' }, el('img', { src: small, alt: '', loading: 'lazy', decoding: 'async' })) : null,
+      el('div', { class: 'feature__inner wrap' },
+        media,
+        el('div', { class: 'feature__text reveal' },
+          f.etiqueta ? bindText(el('span', { class: 'feature__tag' }, tx(f.etiqueta)), f.etiqueta) : null,
+          bindText(el('h3', { class: 'feature__title' }, title), f.titulo),
+          f.subtitulo ? bindText(el('p', { class: 'feature__sub' }, tx(f.subtitulo)), f.subtitulo) : null,
+          el('div', { class: 'feature__actions' },
+            watch,
+            el('a', Object.assign({ class: 'feature__out', href: outUrl }, extAttrs(outUrl)), icon(p.icon), `${t('videos.open')} ${p.name}`, icon('arrow'))))));
+    box.hidden = false;
+  }
+
   /* ---------- 4. Música ---------- */
   function renderMusic() {
     const box = $('#players');
@@ -461,22 +510,130 @@
       return card;
     }));
 
-    // Enlaces a perfiles de música
+    // Enlaces a perfiles de música que no salgan ya arriba como tarjeta
     const r = D.redes || {};
-    const links = ['soundcloud', 'mixcloud', 'spotify', 'youtube'].filter((k) => r[k] && !isPending(r[k]));
-    const chips = links.map((k) => el('a', Object.assign({ class: 'chip', href: r[k] }, extAttrs(r[k])), icon(PLATFORM[k].icon), PLATFORM[k].name));
-    if (r.linktree && !isPending(r.linktree)) {
-      chips.unshift(el('a', Object.assign({ class: 'chip chip--solid', href: r.linktree }, extAttrs(r.linktree)), icon('linktree'), el('span', { 'data-i18n': 'music.sets' }, t('music.sets'))));
-    }
-    $('#platforms').replaceChildren(...chips);
+    const used = new Set((D.musica || []).map((m) => (parseMedia(m.url) || {}).platform).filter(Boolean));
+    const links = ['soundcloud', 'mixcloud', 'spotify', 'youtube'].filter((k) => r[k] && !isPending(r[k]) && !used.has(k));
+    $('#platforms').replaceChildren(...links.map((k) => el('a', Object.assign({ class: 'chip', href: r[k] }, extAttrs(r[k])), icon(PLATFORM[k].icon), PLATFORM[k].name)));
   }
 
   /* ---------- 5. Fechas ---------- */
+  // Acepta 2026-11-14 y también 14/11/2026, 14-11-2026, 14.11.2026 o 14/11/26
   function parseDate(s) {
-    const m = /^(\d{4})-(\d{1,2})-(\d{1,2})$/.exec(String(s || '').trim());
-    if (!m) return null;
-    const d = new Date(+m[1], +m[2] - 1, +m[3]);
-    return d.getMonth() === +m[2] - 1 ? d : null;
+    const str = String(s || '').trim();
+    let y, mo, da;
+    let m = /^(\d{4})-(\d{1,2})-(\d{1,2})$/.exec(str);
+    if (m) [y, mo, da] = [+m[1], +m[2], +m[3]];
+    else if ((m = /^(\d{1,2})[/.-](\d{1,2})[/.-](\d{2}|\d{4})$/.exec(str))) [da, mo, y] = [+m[1], +m[2], +m[3] < 100 ? 2000 + +m[3] : +m[3]];
+    else return null;
+    const d = new Date(y, mo - 1, da);
+    return d.getMonth() === mo - 1 && d.getDate() === da ? d : null;
+  }
+  const isoDate = (d) => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+
+  /* Fechas desde una hoja de Google (HOJA_FECHAS en datos.js).
+     La hoja tiene que estar compartida como "cualquier persona con el enlace". */
+  let sheetGigs = [];
+  let sheetBad = [];
+  const norm = (s) => String(s || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z]/g, '');
+  const COLS = {
+    fecha: ['fecha', 'date', 'dia'], ciudad: ['ciudad', 'city', 'localidad'], sala: ['sala', 'club', 'lugar', 'venue', 'local'],
+    evento: ['evento', 'fiesta', 'event', 'nombre'], entradas: ['entradas', 'tickets', 'ticket', 'venta'],
+    info: ['info', 'masinfo', 'enlace', 'link', 'instagram'], agotado: ['agotado', 'agotadas', 'soldout'],
+  };
+  function colKey(label) {
+    const n = norm(label);
+    return Object.keys(COLS).find((k) => COLS[k].includes(n)) || null;
+  }
+  function cellText(c) {
+    if (!c || c.v == null) return '';
+    if (typeof c.v === 'string' && /^Date\(/.test(c.v)) {
+      const p = c.v.match(/\d+/g).map(Number);
+      return isoDate(new Date(p[0], p[1], p[2]));
+    }
+    return typeof c.v === 'string' ? c.v.trim() : (c.f != null ? String(c.f) : String(c.v));
+  }
+  function fixUrl(u) {
+    u = String(u || '').trim();
+    if (!u) return '';
+    if (/^@[\w.]+$/.test(u)) return `https://www.instagram.com/${u.slice(1)}/`;
+    if (!/^https?:\/\//i.test(u) && /\.[a-z]{2,}/i.test(u)) return 'https://' + u;
+    return u;
+  }
+  function rowsToGigs(headers, rows) {
+    const keys = headers.map(colKey);
+    if (!keys.includes('fecha')) return null;
+    const gigs = [];
+    const bad = [];
+    rows.forEach((cells) => {
+      const g = {};
+      keys.forEach((k, i) => { if (k) g[k] = cells[i] || ''; });
+      if (!g.fecha && !g.sala && !g.ciudad) return;
+      const d = parseDate(g.fecha);
+      if (!d) { if (g.fecha) bad.push(g.fecha); return; }
+      gigs.push({
+        fecha: isoDate(d), ciudad: g.ciudad, sala: g.sala, evento: g.evento,
+        entradas: fixUrl(g.entradas), info: fixUrl(g.info),
+        agotado: /^(s[ií]|x|yes|y|true|1|agotad|sold)/i.test(String(g.agotado || '').trim()),
+      });
+    });
+    return { gigs, bad };
+  }
+  function parseCsv(text) {
+    const rows = [];
+    let row = [];
+    let cur = '';
+    let q = false;
+    for (let i = 0; i < text.length; i++) {
+      const ch = text[i];
+      if (q) {
+        if (ch === '"' && text[i + 1] === '"') { cur += '"'; i++; } else if (ch === '"') q = false; else cur += ch;
+      } else if (ch === '"') q = true;
+      else if (ch === ',') { row.push(cur); cur = ''; }
+      else if (ch === '\n' || ch === '\r') {
+        if (ch === '\r' && text[i + 1] === '\n') i++;
+        row.push(cur); rows.push(row); row = []; cur = '';
+      } else cur += ch;
+    }
+    if (cur || row.length) { row.push(cur); rows.push(row); }
+    return rows.map((r) => r.map((c) => c.trim()));
+  }
+  function loadSheetDates() {
+    const link = String(D.hojaFechas || '').trim();
+    const pub = link.match(/\/spreadsheets\/d\/e\/([\w-]+)/);
+    const id = !pub && link.match(/\/spreadsheets\/d\/([\w-]+)/);
+    if (!pub && !id) return;
+    const gid = (link.match(/[#?&]gid=(\d+)/) || [])[1];
+    const url = pub
+      ? `https://docs.google.com/spreadsheets/d/e/${pub[1]}/pub?output=csv${gid ? '&gid=' + gid : ''}`
+      : `https://docs.google.com/spreadsheets/d/${id[1]}/gviz/tq?tqx=out:json&headers=1${gid ? '&gid=' + gid : ''}`;
+    fetch(url, { cache: 'no-store' })
+      .then((r) => { if (!r.ok) throw new Error(r.status); return r.text(); })
+      .then((text) => {
+        let res;
+        if (pub) {
+          const rows = parseCsv(text).filter((r) => r.some(Boolean));
+          res = rows.length ? rowsToGigs(rows[0], rows.slice(1)) : null;
+        } else {
+          const json = JSON.parse(text.slice(text.indexOf('{'), text.lastIndexOf('}') + 1));
+          if (json.status === 'error') throw new Error('hoja');
+          const t = json.table || {};
+          const headers = (t.cols || []).map((c) => c.label || '');
+          const rows = (t.rows || []).map((r) => (r.c || []).map(cellText));
+          res = rowsToGigs(headers, rows);
+          // Si la hoja no marca la primera fila como encabezado, se usa esa fila
+          if (!res && rows.length) res = rowsToGigs(rows[0], rows.slice(1));
+        }
+        if (!res) throw new Error('sin columna Fecha');
+        sheetGigs = res.gigs;
+        sheetBad = res.bad;
+        renderDates();
+        observeReveals();
+        document.dispatchEvent(new CustomEvent('giselz:render'));
+      })
+      .catch((e) => {
+        console.warn('[GISELZ] No se pudo leer la hoja de fechas (¿está compartida como "cualquier persona con el enlace"?):', e.message);
+      });
   }
   function demoGigs() {
     const iso = (offset) => {
@@ -521,11 +678,18 @@
   function renderDates() {
     const box = $('#gigs');
     const demo = params.has('demo');
-    const source = demo ? demoGigs() : (D.fechas || []);
+    // Fechas de datos.js + las de la hoja de Google (si una está en las dos, sale una vez)
+    const merged = new Map();
+    (demo ? demoGigs() : (D.fechas || []).concat(sheetGigs)).filter(Boolean).forEach((g) => {
+      const d = parseDate(g.fecha);
+      const key = d ? `${isoDate(d)}|${norm(g.sala)}` : `bad|${g.fecha}`;
+      merged.set(key, g);
+    });
+    const source = [...merged.values()];
     const today = new Date();
     today.setHours(0, 0, 0, 0);
-    const bad = [];
-    const all = source.filter(Boolean).map((g) => Object.assign({}, g, { d: parseDate(g.fecha) }))
+    const bad = demo ? [] : sheetBad.slice();
+    const all = source.map((g) => Object.assign({}, g, { d: parseDate(g.fecha) }))
       .filter((g) => (g.d ? true : (bad.push(g.fecha), false)));
     const upcoming = all.filter((g) => g.d >= today).sort((a, b) => a.d - b.d);
     const past = all.filter((g) => g.d < today).sort((a, b) => b.d - a.d);
@@ -539,7 +703,7 @@
       out.push(el('div', { class: 'gigs-empty reveal' },
         el('p', { class: 'gigs-empty__title' }, t('dates.empty.title')),
         el('p', {}, t('dates.empty.text')),
-        demo || (D.fechas || []).length ? null : pendingTag('', 'añadir los bolos en assets/js/datos.js → FECHAS'),
+        demo || source.length || D.hojaFechas ? null : pendingTag('', 'añadir los bolos en la hoja de fechas o en datos.js → FECHAS'),
         el('a', { class: 'btn btn--pink', href: '#booking' }, t('dates.empty.cta'), icon('arrow'))));
     }
     if (past.length) {
@@ -547,8 +711,9 @@
         el('summary', {}, `${t('dates.past')} (${past.length})`, icon('plus')),
         el('ul', { class: 'gig-list' }, past.map((g) => gigRow(g, true)))));
     }
-    bad.forEach((f) => out.push(el('p', { class: 'gig-warn' }, pendingTag(`[PENDIENTE: la fecha "${f}" no se entiende. Escríbela como AAAA-MM-DD, ej. 2026-11-14]`))));
+    bad.forEach((f) => out.push(el('p', { class: 'gig-warn' }, pendingTag(`[PENDIENTE: la fecha "${f}" no se entiende. Escríbela como 14/11/2026]`))));
     box.replaceChildren(...out);
+    renderTopNext(demo ? null : upcoming[0]);
 
     // Datos estructurados para que Google muestre los eventos
     const old = $('#ld-events');
@@ -560,7 +725,7 @@
         '@context': 'https://schema.org',
         '@graph': events.map((g) => {
           const ev = {
-            '@type': 'MusicEvent', name: g.evento ? `${g.evento} · GISELZ` : `GISELZ @ ${g.sala}`, startDate: g.fecha,
+            '@type': 'MusicEvent', name: g.evento ? `${g.evento} · GISELZ` : `GISELZ @ ${g.sala}`, startDate: isoDate(g.d),
             eventStatus: 'https://schema.org/EventScheduled',
             eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
             location: { '@type': 'Place', name: g.sala, address: { '@type': 'PostalAddress', addressLocality: g.ciudad } },
@@ -809,23 +974,27 @@
   /* ---------- 9. Press ---------- */
   function renderPress() {
     const p = D.press || {};
+    const sub = (url, localKey) => (isExternal(url || '') && /drive\.google\./.test(url) ? 'press.drive' : localKey);
     const cards = [
-      { url: p.presskit, type: 'PDF', label: 'press.kit', sub: 'press.kitSub', main: true, missing: 'sube el PDF a assets/presskit/GISELZ-presskit.pdf' },
-      { url: p.fotos, type: 'JPG', label: 'press.photos', sub: 'press.download', missing: 'enlace a fotos en alta' },
-      { url: p.logos, type: 'PNG', label: 'press.logos', sub: 'press.download', missing: 'enlace a logos en alta' },
-    ];
+      { url: p.presskit, type: 'PDF', label: 'press.kit', sub: 'press.kitSub', mod: 'main', missing: 'sube el PDF a assets/presskit/GISELZ-presskit.pdf' },
+      p.foto ? { url: p.foto, preview: p.fotoVista || p.foto, label: 'press.photo', sub: 'press.photoSub', mod: 'photo', missing: 'foto de prensa' } : null,
+      { url: p.fotos, type: 'JPG', label: 'press.photos', sub: sub(p.fotos, 'press.download'), mod: 'fotos', missing: 'enlace a fotos en alta' },
+      { url: p.logos, type: 'PNG', label: 'press.logos', sub: sub(p.logos, 'press.download'), mod: 'logos', missing: 'enlace a logos en alta' },
+    ].filter(Boolean);
     const box = $('#press-cards');
     box.replaceChildren(...cards.map((c, i) => {
+      const local = !isExternal(c.url || '');
       const body = [
-        el('span', { class: 'press-card__icon', 'aria-hidden': 'true' }, icon('download')),
-        el('span', { class: 'press-card__type', 'aria-hidden': 'true' }, c.type),
-        el('span', {}, el('span', { class: 'press-card__label', 'data-i18n': c.label }, t(c.label)), el('span', { class: 'press-card__sub', 'data-i18n': c.sub }, t(c.sub))),
+        c.preview ? el('span', { class: 'press-card__img duo' }, el('img', { src: c.preview, alt: 'GISELZ', loading: 'lazy', decoding: 'async' })) : null,
+        el('span', { class: 'press-card__icon', 'aria-hidden': 'true' }, icon(local ? 'download' : 'arrow')),
+        c.type ? el('span', { class: 'press-card__type', 'aria-hidden': 'true' }, c.type) : null,
+        el('span', { class: 'press-card__text' }, el('span', { class: 'press-card__label', 'data-i18n': c.label }, t(c.label)), el('span', { class: 'press-card__sub', 'data-i18n': c.sub }, t(c.sub))),
       ];
-      const cls = 'press-card reveal' + (c.main ? ' press-card--main' : '');
+      const cls = `press-card press-card--${c.mod} reveal`;
       const pendingCard = () => el('div', { class: cls + ' is-pending is-in', style: `--d:${i * 90}ms` }, body, pendingTag('', c.missing));
       if (isPending(c.url)) return pendingCard();
-      const local = !isExternal(c.url);
-      const link = el('a', Object.assign({ class: cls, href: c.url, style: `--d:${i * 90}ms` }, local ? { download: '' } : extAttrs(c.url)), body);
+      const fileName = local ? 'GISELZ-' + c.url.split('/').pop().replace(/^GISELZ-/, '') : null;
+      const link = el('a', Object.assign({ class: cls, href: c.url, style: `--d:${i * 90}ms` }, local ? { download: fileName } : extAttrs(c.url)), body);
       if (local) {
         // Si el archivo aún no está subido, el botón se muestra como pendiente
         fetch(c.url, { method: 'HEAD' })
@@ -916,6 +1085,20 @@
     if (email) list.push({ href: `mailto:${email}`, icon: 'mail', label: 'Email' });
     $$('[data-socials]').forEach((box) => box.replaceChildren(...list.map((s) =>
       el('a', Object.assign({ class: 'social', href: s.href, 'aria-label': s.label }, extAttrs(s.href)), icon(s.icon)))));
+    // Barra fina de arriba (en toda la web): solo las redes principales
+    const top = ['instagram', 'tiktok', 'soundcloud', 'spotify', 'youtube'].filter((k) => r[k] && !isPending(r[k]));
+    $$('[data-topsocials]').forEach((box) => box.replaceChildren(...top.map((k) =>
+      el('a', Object.assign({ class: 'topbar__link', href: r[k], 'aria-label': PLATFORM[k].name }, extAttrs(r[k])), icon(PLATFORM[k].icon)))));
+  }
+  // En la barra de arriba (ordenador), la próxima fecha
+  function renderTopNext(g) {
+    const box = $('#topbar-next');
+    if (!box) return;
+    if (!g) { box.hidden = true; return; }
+    const day = new Intl.DateTimeFormat(locale(), { day: 'numeric', month: 'short' }).format(g.d).replace('.', '');
+    box.replaceChildren(el('span', { class: 'topbar__dot', 'aria-hidden': 'true' }),
+      el('span', { class: 'topbar__nextlabel' }, t('top.next')), `${day} · ${g.evento || g.sala || ''}${g.ciudad ? ' — ' + g.ciudad : ''}`);
+    box.hidden = false;
   }
 
   /* ---------- Animaciones al hacer scroll ---------- */
@@ -933,6 +1116,7 @@
   renderHero();
   renderMarquee();
   renderBioPhoto();
+  renderFeature();
   renderMusic();
   renderClubs();
   renderGallery();
@@ -942,4 +1126,5 @@
   renderContact();
   renderSocials();
   applyLang();
+  loadSheetDates();
 })();
