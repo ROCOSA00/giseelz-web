@@ -87,7 +87,7 @@
   const UI = {
     es: {
       'skip': 'Saltar al contenido',
-      'meta.title': 'GISELZ · DJ Open Format en Barcelona — Web oficial y booking',
+      'meta.title': 'GISELZ — Web oficial y booking',
       'meta.desc': 'Web oficial de GISELZ, DJ open format de Barcelona. Reggaeton, latin tech, tech house y house. Ha pinchado en Pachá Barcelona y Sala Apolo. Fechas, música y booking.',
       'nav.bio': 'Bio', 'nav.musica': 'Música', 'nav.fechas': 'Fechas', 'nav.clubs': 'Clubs',
       'nav.galeria': 'Galería', 'nav.videos': 'Vídeos', 'nav.press': 'Press', 'nav.booking': 'Booking',
@@ -130,7 +130,7 @@
     },
     en: {
       'skip': 'Skip to content',
-      'meta.title': 'GISELZ · Open Format DJ from Barcelona — Official website & booking',
+      'meta.title': 'GISELZ — Official website & booking',
       'meta.desc': 'Official website of GISELZ, open format DJ from Barcelona. Reggaeton, latin tech, tech house and house. Played at Pachá Barcelona and Sala Apolo. Dates, music and booking.',
       'nav.bio': 'Bio', 'nav.musica': 'Music', 'nav.fechas': 'Dates', 'nav.clubs': 'Clubs',
       'nav.galeria': 'Gallery', 'nav.videos': 'Videos', 'nav.press': 'Press', 'nav.booking': 'Booking',
