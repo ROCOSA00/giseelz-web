@@ -272,6 +272,9 @@ const IMAGENES = {
 
   // Foto de la sección Bio
   bio: "assets/img/bio.jpg",
+
+  // Foto de fondo de la sección Booking (si la dejas vacía "", el fondo queda negro)
+  booking: "assets/img/booking.jpg",
 };
 
 
@@ -279,15 +282,11 @@ const IMAGENES = {
    13. PRESS (descargas para medios y promotores)
    --------------------------------------------------------------------------
    · presskit → el PDF dentro de assets/presskit/
-   · foto     → foto de prensa que se descarga directamente desde la web
-   · fotoVista → (opcional) la misma foto más pequeña, para que la web cargue rápido
    · fotos    → carpeta con todas las fotos en alta (Google Drive)
    · logos    → carpeta con los logos (Google Drive)
    -------------------------------------------------------------------------- */
 const PRESS = {
   presskit: "assets/presskit/GISELZ-presskit.pdf",
-  foto: "assets/presskit/DSC07974.jpg",
-  fotoVista: "assets/img/prensa-dsc07974.jpg", // versión ligera para enseñarla en la web
   fotos: "https://drive.google.com/drive/folders/1V3szzAgTzSTG0LqUGvnSDULXiBD_IkYW",
   logos: "https://drive.google.com/drive/folders/1AZbRgNkh9YMMBcxyNsnMAA4QDSMW1ESx",
 };

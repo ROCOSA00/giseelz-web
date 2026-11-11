@@ -955,18 +955,6 @@ a.press-card--main:hover { box-shadow: 14px 14px 0 var(--cream); }
 a.press-card:hover .press-card__icon { transform: translateY(4px); }
 .press-card.is-pending { box-shadow: none; border-style: dashed; }
 /* Tarjeta con la foto de prensa (se descarga al pulsar) */
-.press-card--photo { min-height: 420px; justify-content: flex-end; overflow: hidden; isolation: isolate; color: var(--white); background: var(--ink); }
-.press-card__img { position: absolute; inset: 0; z-index: -1; }
-.press-card__img img { object-position: 50% 30%; }
-.press-card--photo::after {
-  content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none;
-  background: linear-gradient(180deg, transparent 45%, rgba(11, 10, 12, .85));
-}
-.press-card--photo .press-card__label { color: var(--white); }
-.press-card--photo .press-card__sub { color: var(--pale); }
-a.press-card--photo:hover .press-card__img { background-color: #fff; }
-a.press-card--photo:hover .press-card__img img { filter: grayscale(0) contrast(1.05); transform: scale(1.04); }
-a.press-card--photo:hover .press-card__img::after { opacity: 0; }
 .press-card.is-pending .press-card__icon { background: transparent; border: 2px dashed currentColor; color: inherit; }
 
 /* ---------- 10. Booking ---------- */
@@ -976,6 +964,19 @@ a.press-card--photo:hover .press-card__img::after { opacity: 0; }
   background: radial-gradient(closest-side, rgba(255, 46, 147, .28), transparent 70%);
 }
 .sec--booking .wrap { position: relative; z-index: 1; }
+/* Foto de fondo (IMAGENES.booking en datos.js): duotono rosa, fundida con el negro */
+.booking-bg { position: absolute; top: 0; left: 0; right: 0; height: min(150vw, 760px); z-index: 0; pointer-events: none; }
+.booking-bg .duo { position: absolute; inset: 0; opacity: .5; }
+.booking-bg img { object-position: 50% 12%; }
+.booking-bg::after {
+  content: ""; position: absolute; inset: 0;
+  background: linear-gradient(180deg, rgba(11, 10, 12, .25) 0%, rgba(11, 10, 12, 0) 25%, rgba(11, 10, 12, .7) 75%, var(--ink) 100%);
+}
+@media (max-width: 899px) {
+  /* En móvil la foto queda arriba y el título se apoya encima, estilo póster */
+  .sec--booking.has-photo .sec-head { padding-top: 48vw; }
+  .booking-bg img { object-position: 50% 6%; }
+}
 .booking { display: grid; gap: 48px; }
 .form { display: grid; gap: 16px; }
 .form__intro { font: 650 clamp(1.15rem, 4.2vw, 1.5rem)/1.35 var(--f-body); margin-bottom: 8px; max-width: 34ch; }
@@ -1075,11 +1076,8 @@ a.press-card--photo:hover .press-card__img::after { opacity: 0; }
   .gig { grid-template-columns: auto 1fr auto; }
   .gig__cta { grid-column: auto; }
   .gig__cta .btn { width: auto; }
-  .press { grid-template-columns: repeat(2, 1fr); grid-template-areas: "kit kit" "photo fotos" "photo logos"; }
-  .press-card--main { grid-area: kit; }
-  .press-card--photo { grid-area: photo; }
-  .press-card--fotos { grid-area: fotos; }
-  .press-card--logos { grid-area: logos; }
+  .press { grid-template-columns: repeat(2, 1fr); }
+  .press-card--main { grid-column: 1 / -1; }
   .bio__photo { margin: 0; max-width: 560px; }
 }
 
@@ -1101,9 +1099,17 @@ a.press-card--photo:hover .press-card__img::after { opacity: 0; }
       linear-gradient(90deg, var(--ink) 0%, var(--ink) 36%, rgba(11, 10, 12, .6) 46%, rgba(11, 10, 12, 0) 62%),
       linear-gradient(180deg, rgba(11, 10, 12, .55) 0%, rgba(11, 10, 12, 0) 22%, rgba(11, 10, 12, 0) 72%, var(--ink) 100%);
   }
-  .press { grid-template-columns: 1fr 1fr 1fr; grid-template-areas: "photo kit kit" "photo fotos logos"; }
+  .press { grid-template-columns: 1.4fr 1fr 1fr; }
+  .press-card--main { grid-column: auto; }
   .press-card { min-height: 250px; padding: 30px; }
   .booking { grid-template-columns: 7fr 5fr; gap: clamp(40px, 6vw, 96px); align-items: start; }
+  .booking-bg { left: auto; bottom: 0; width: 50%; height: auto; }
+  .booking-bg img { object-position: 50% 20%; }
+  .booking-bg::after {
+    background:
+      linear-gradient(90deg, var(--ink) 0%, rgba(11, 10, 12, .55) 22%, rgba(11, 10, 12, 0) 55%),
+      linear-gradient(180deg, var(--ink) 0%, rgba(11, 10, 12, .2) 18%, rgba(11, 10, 12, 0) 70%, var(--ink) 100%);
+  }
   .contact { position: sticky; top: calc(var(--head-h) + 32px); }
   .gig { padding: 26px 0; gap: 14px 32px; }
   .gig__date { width: 92px; min-height: 104px; }

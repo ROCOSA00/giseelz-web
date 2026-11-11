@@ -109,7 +109,7 @@
       'press.kicker': 'Para medios y promotores', 'press.title': 'Press',
       'press.kit': 'Presskit', 'press.kitSub': 'Descargar PDF',
       'press.photos': 'Fotos en alta', 'press.logos': 'Logos', 'press.download': 'Descargar',
-      'press.drive': 'Abrir carpeta en Drive', 'press.photo': 'Foto de prensa', 'press.photoSub': 'Descargar JPG',
+      'press.drive': 'Abrir carpeta en Drive',
       'booking.kicker': 'Contrataciones', 'booking.title': 'Booking',
       'booking.intro': 'Clubs, festivales, eventos privados y marcas. Cuéntanos tu idea y te respondemos.',
       'form.name': 'Nombre', 'form.type': 'Tipo de evento', 'form.typePick': 'Elige una opción',
@@ -150,7 +150,7 @@
       'press.kicker': 'For media & promoters', 'press.title': 'Press',
       'press.kit': 'Press kit', 'press.kitSub': 'Download PDF',
       'press.photos': 'Hi-res photos', 'press.logos': 'Logos', 'press.download': 'Download',
-      'press.drive': 'Open Drive folder', 'press.photo': 'Press photo', 'press.photoSub': 'Download JPG',
+      'press.drive': 'Open Drive folder',
       'booking.kicker': 'Bookings', 'booking.title': 'Booking',
       'booking.intro': 'Clubs, festivals, private events and brands. Tell us about your event and we’ll get back to you.',
       'form.name': 'Name', 'form.type': 'Event type', 'form.typePick': 'Choose one',
@@ -308,6 +308,15 @@
   }
   function renderGenresSr() {
     $('#genres-sr').textContent = t('genres.sr') + (D.generos || []).join(', ');
+  }
+
+  /* ---------- Foto de fondo de Booking ---------- */
+  function renderBookingPhoto() {
+    const sec = $('#booking');
+    const img = $('.booking-bg img', sec);
+    const src = (D.imagenes || {}).booking;
+    if (src) { swapSrc(img, src); return; }
+    if (src === '') { sec.classList.remove('has-photo'); $('.booking-bg', sec).remove(); }
   }
 
   /* ---------- 3. Bio ---------- */
@@ -977,15 +986,13 @@
     const sub = (url, localKey) => (isExternal(url || '') && /drive\.google\./.test(url) ? 'press.drive' : localKey);
     const cards = [
       { url: p.presskit, type: 'PDF', label: 'press.kit', sub: 'press.kitSub', mod: 'main', missing: 'sube el PDF a assets/presskit/GISELZ-presskit.pdf' },
-      p.foto ? { url: p.foto, preview: p.fotoVista || p.foto, label: 'press.photo', sub: 'press.photoSub', mod: 'photo', missing: 'foto de prensa' } : null,
       { url: p.fotos, type: 'JPG', label: 'press.photos', sub: sub(p.fotos, 'press.download'), mod: 'fotos', missing: 'enlace a fotos en alta' },
       { url: p.logos, type: 'PNG', label: 'press.logos', sub: sub(p.logos, 'press.download'), mod: 'logos', missing: 'enlace a logos en alta' },
-    ].filter(Boolean);
+    ];
     const box = $('#press-cards');
     box.replaceChildren(...cards.map((c, i) => {
       const local = !isExternal(c.url || '');
       const body = [
-        c.preview ? el('span', { class: 'press-card__img duo' }, el('img', { src: c.preview, alt: 'GISELZ', loading: 'lazy', decoding: 'async' })) : null,
         el('span', { class: 'press-card__icon', 'aria-hidden': 'true' }, icon(local ? 'download' : 'arrow')),
         c.type ? el('span', { class: 'press-card__type', 'aria-hidden': 'true' }, c.type) : null,
         el('span', { class: 'press-card__text' }, el('span', { class: 'press-card__label', 'data-i18n': c.label }, t(c.label)), el('span', { class: 'press-card__sub', 'data-i18n': c.sub }, t(c.sub))),
@@ -1116,6 +1123,7 @@
   renderHero();
   renderMarquee();
   renderBioPhoto();
+  renderBookingPhoto();
   renderFeature();
   renderMusic();
   renderClubs();
