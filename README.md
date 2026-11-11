@@ -90,7 +90,7 @@ En el apartado **`1. PRÓXIMAS FECHAS`**, debajo de `HOJA_FECHAS`, cada bolo es 
 - **No hace falta borrar las fechas pasadas**: al día siguiente del bolo se mueven solas a "Fechas pasadas", que sale plegado y atenuado debajo.
 - Si una fecha no se entiende (por ejemplo "mañana"), la web te avisa con una etiqueta `[PENDIENTE]` diciendo cuál es.
 - Si no hay ninguna fecha próxima, sale un bloque de "Nuevas fechas muy pronto" con un botón a Booking.
-- **Truco para probar**: añade `?demo` al final de la dirección de la web (por ejemplo `https://giseelz-web.vercel.app/?demo`) y verás cómo queda con fechas de ejemplo, sin tocar nada.
+- **Truco para probar**: añade `?demo` al final de la dirección de la web (por ejemplo `https://www.giselz.com/?demo`) y verás cómo queda con fechas de ejemplo, sin tocar nada.
 
 ---
 
@@ -233,15 +233,16 @@ Los textos fijos de la web (menú, botones, formulario…) ya están traducidos 
 
 ## 6. Publicación en Vercel
 
-La web está publicada en **https://giseelz-web.vercel.app/** y Vercel está conectado a este repositorio:
+La web está publicada en **https://www.giselz.com/** y Vercel está conectado a este repositorio:
 
 - **Cada cambio que se guarda en `main` se publica solo**, en un minuto más o menos. No hay que hacer nada más.
 - Cuando se abre un Pull Request, Vercel crea una **vista previa** con su propio enlace (sale en el PR). Así se puede ver cómo queda antes de fusionarlo.
 - No hace falta ninguna configuración especial: es una web estática, sin paso de compilación (en Vercel, *Framework Preset: Other*).
 
-### ¿Dominio propio? (por ejemplo `giselz.com`)
-1. Cómpralo en cualquier registrador y añádelo en Vercel: proyecto → **Settings → Domains → Add**, y sigue los pasos que te indica.
-2. En `index.html`, `robots.txt` y `sitemap.xml`, cambia `https://giseelz-web.vercel.app/` por tu dominio nuevo (usa "buscar y reemplazar"). Así la vista previa en WhatsApp y Google apuntan bien.
+### Dominio: giselz.com
+- El dominio **giselz.com** está comprado en Vercel (11/11/2026) y conectado al proyecto. La dirección principal es **www.giselz.com**; `giselz.com` (sin www) y la antigua `giseelz-web.vercel.app` redirigen solas ahí.
+- **Caduca el 11/11/2027**: comprueba en Vercel (**Settings → Domains**) que la renovación automática está activada y que hay una tarjeta válida. Si el dominio caducara, la dirección antigua de vercel.app también dejaría de llevar a la web (por la redirección de `vercel.json`); en ese caso, borra el bloque `redirects` de `vercel.json`.
+- Si algún día cambias de dominio: en `index.html`, `robots.txt` y `sitemap.xml` cambia `https://www.giselz.com/` por el nuevo (usa "buscar y reemplazar"), y actualiza la redirección de `vercel.json`. Así la vista previa en WhatsApp y Google apuntan bien.
 
 ---
 

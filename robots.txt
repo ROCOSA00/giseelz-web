@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://giseelz-web.vercel.app/sitemap.xml
+Sitemap: https://www.giselz.com/sitemap.xml
