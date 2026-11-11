@@ -42,7 +42,7 @@ const HOJA_FECHAS = "https://docs.google.com/spreadsheets/d/17Vx0dRTTy1sbMetWP6F
    mueve sola a "Fechas pasadas" y las muestra atenuadas.
 
    Truco: para ver cómo queda con fechas de prueba, abre la web añadiendo
-   ?demo al final de la dirección (ej. https://giseelz-web.vercel.app/?demo).
+   ?demo al final de la dirección (ej. https://www.giselz.com/?demo).
 */
 const FECHAS = [
   { fecha: "2026-10-11", ciudad: "Badalona", sala: "Espai Titus", evento: "Vive Fomo", info: "https://www.instagram.com/vivefomo/" },
