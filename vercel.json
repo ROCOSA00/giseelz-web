@@ -1,14 +1,14 @@
 {
   "redirects": [
     {
-      "source": "/:path*",
+      "source": "/(.*)",
       "has": [
         {
           "type": "host",
           "value": "giseelz-web.vercel.app"
         }
       ],
-      "destination": "https://www.giselz.com/:path*",
+      "destination": "https://www.giselz.com/$1",
       "permanent": true
     }
   ],
