@@ -52,11 +52,15 @@ Las fechas se apuntan en una hoja de Google y **la web las coge sola**: no hay q
 **Hoja:** https://docs.google.com/spreadsheets/d/17Vx0dRTTy1sbMetWP6FitLhCPFTmKEhOeR3MeYBsKwk/edit
 
 **Antes de empezar (solo una vez):**
-1. Abre la hoja → **Compartir** → en "Acceso general" elige **Cualquier persona con el enlace** → rol **Lector** → Hecho. Sin esto la web no puede leerla (las fechas siguen siendo públicas igualmente, porque salen en la web).
+1. Abre la hoja → botón **Compartir** (arriba a la derecha) → abajo del todo, en **"Acceso general"**, cambia **"Restringido"** por **"Cualquier persona con el enlace"** → rol **Lector** → **Hecho**. Sin esto la web no puede leerla (las fechas siguen siendo públicas igualmente, porque salen en la web).
+   - ⚠️ **Añadir el email de alguien NO es lo mismo**: eso solo deja entrar a esa persona. La web no tiene cuenta de Google, así que necesita lo de "Cualquier persona con el enlace".
+   - Para comprobarlo: abre el enlace de la hoja en una ventana de incógnito. Si la ves sin iniciar sesión, la web también.
 2. Si la va a rellenar otra persona (por ejemplo la propia GISELZ), en ese mismo menú **Compartir** añade su email como **Editor**.
 3. **Archivo → Configuración → Configuración regional: España**, para que `05/11/2026` se entienda como 5 de noviembre (y no como 11 de mayo, que es como lo leen en EE. UU.).
 
-**Para añadir un bolo:** abre la hoja (en el móvil, con la app Hojas de cálculo de Google), escribe una fila nueva y listo. En 1 minuto sale en la web.
+**Para añadir un bolo:** abre la hoja (en el móvil, con la app Hojas de cálculo de Google), escribe una fila nueva y listo. En 1 minuto sale en la web (recarga la página para verlo).
+
+> **Ojo: tiene que ser esta hoja de Google, no un Excel.** Si se descarga la hoja y se rellena en Microsoft Excel (o en Numbers), esos cambios se quedan en el ordenador y la web no los ve. Se guarda sola mientras escribes; no hay que darle a guardar ni a publicar.
 
 | Columna    | Qué poner                                                                 |
 |------------|---------------------------------------------------------------------------|
@@ -177,7 +181,7 @@ Las seis fotos actuales están sacadas del presskit. Algunas venían como captur
 `texto` es una descripción corta: se ve al ampliar la foto y ayuda a Google y a quien usa lector de pantalla.
 Las fotos salen en duotono rosa y negro y se ven a color al pasar el ratón. Al pulsarlas se abren a pantalla completa (en el móvil se desliza con el dedo entre ellas).
 
-### Logo, portada y foto de la bio
+### Logo, portada, foto de la bio y fondo de Booking
 Están en el apartado **`12. IMÁGENES PRINCIPALES`**:
 
 ```js
@@ -186,6 +190,7 @@ const IMAGENES = {
   hero: "assets/img/hero.jpg",
   heroVideo: "",              // opcional: vídeo corto .mp4 de fondo (5-15 s, sin sonido, < 4 MB)
   bio: "assets/img/bio.jpg",
+  booking: "assets/img/booking.jpg", // foto de fondo de la sección Booking ("" = fondo negro)
 };
 ```
 
@@ -193,11 +198,11 @@ const IMAGENES = {
 - La foto de portada se ve siempre en duotono rosa y negro, así que puede ser a color o en blanco y negro.
 - El logo tiene que ser **blanco con fondo transparente** (PNG), porque va sobre fondo oscuro.
 - Si `logo` se deja vacío, se usa el nombre GISELZ en tipografía.
+- La foto de **Booking** (la de la silla) sale de fondo, en duotono rosa y fundida con el negro. Para cambiarla, sube otra con el mismo nombre (`booking.jpg`, vertical, unos 1000 × 1250 px).
 
 ### Presskit en PDF
 Ya está subido en `assets/presskit/GISELZ-presskit.pdf`. Si haces uno nuevo, súbelo con **el mismo nombre** para sustituirlo.
 En el apartado **`13. PRESS`** están también:
-- **Foto de prensa** (`foto`): `assets/presskit/DSC07974.jpg`, que se descarga directamente desde la web. Para cambiarla, sube otra foto a `assets/presskit/` y pon su ruta (y en `fotoVista`, una copia pequeña de unos 720 px para que cargue rápido).
 - **Fotos en alta** (`fotos`) y **logos** (`logos`): enlaces a las carpetas de Google Drive. Lo que se añada a esas carpetas aparece solo, sin tocar la web.
 
 ### Imagen al compartir el link (WhatsApp, Instagram…)
