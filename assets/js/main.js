@@ -87,6 +87,8 @@
   const UI = {
     es: {
       'skip': 'Saltar al contenido',
+      'meta.title': 'GISELZ · DJ Open Format en Barcelona — Web oficial y booking',
+      'meta.desc': 'Web oficial de GISELZ, DJ open format de Barcelona. Reggaeton, latin tech, tech house y house. Ha pinchado en Pachá Barcelona y Sala Apolo. Fechas, música y booking.',
       'nav.bio': 'Bio', 'nav.musica': 'Música', 'nav.fechas': 'Fechas', 'nav.clubs': 'Clubs',
       'nav.galeria': 'Galería', 'nav.videos': 'Vídeos', 'nav.press': 'Press', 'nav.booking': 'Booking',
       'menu.open': 'Abrir menú', 'menu.close': 'Cerrar menú',
@@ -128,6 +130,8 @@
     },
     en: {
       'skip': 'Skip to content',
+      'meta.title': 'GISELZ · Open Format DJ from Barcelona — Official website & booking',
+      'meta.desc': 'Official website of GISELZ, open format DJ from Barcelona. Reggaeton, latin tech, tech house and house. Played at Pachá Barcelona and Sala Apolo. Dates, music and booking.',
       'nav.bio': 'Bio', 'nav.musica': 'Music', 'nav.fechas': 'Dates', 'nav.clubs': 'Clubs',
       'nav.galeria': 'Gallery', 'nav.videos': 'Videos', 'nav.press': 'Press', 'nav.booking': 'Booking',
       'menu.open': 'Open menu', 'menu.close': 'Close menu',
@@ -205,6 +209,10 @@
       });
     });
     $$('.lang button').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.lang === lang)));
+    document.title = t('meta.title');
+    const desc = $('meta[name="description"]');
+    if (desc) desc.setAttribute('content', t('meta.desc'));
+    $$('.shot[data-label]').forEach((b) => b.setAttribute('aria-label', `${t('gallery.open')}: ${b.dataset.label}`));
     $('.burger').setAttribute('aria-label', t(document.body.classList.contains('menu-open') ? 'menu.close' : 'menu.open'));
     langHooks.forEach((fn) => fn());
     renderClaim();
@@ -470,7 +478,7 @@
           f.subtitulo ? bindText(el('p', { class: 'feature__sub' }, tx(f.subtitulo)), f.subtitulo) : null,
           el('div', { class: 'feature__actions' },
             watch,
-            el('a', Object.assign({ class: 'feature__out', href: outUrl }, extAttrs(outUrl)), icon(p.icon), `${t('videos.open')} ${p.name}`, icon('arrow'))))));
+            el('a', Object.assign({ class: 'feature__out', href: outUrl }, extAttrs(outUrl)), icon(p.icon), el('span', {}, el('span', { 'data-i18n': 'videos.open' }, t('videos.open')), ` ${p.name}`), icon('arrow'))))));
     box.hidden = false;
   }
 
@@ -498,18 +506,17 @@
         card.append(el('a', Object.assign({ class: 'player__facade', href: info.link }, extAttrs(info.link)),
           el('span', { class: 'player__btn', 'aria-hidden': 'true' }, icon('arrow')),
           el('span', { class: 'player__meta' },
-            el('span', { class: 'player__platform' }, icon(p.icon), `${t('music.open')} ${p.name}`),
+            el('span', { class: 'player__platform' }, icon(p.icon), el('span', {}, el('span', { 'data-i18n': 'music.open' }, t('music.open')), ` ${p.name}`)),
             titleNode())));
         return card;
       }
-      const musicLabel = () => `${t('music.play')}: ${isPending(tx(m.titulo)) ? p.name : tx(m.titulo)}`;
-      const facade = el('button', { class: 'player__facade', type: 'button', 'aria-label': musicLabel() },
+      const facade = el('button', { class: 'player__facade', type: 'button' },
+        el('span', { class: 'sr-only', 'data-i18n': 'music.play' }, t('music.play')),
         el('span', { class: 'player__btn', 'aria-hidden': 'true' }, icon('play')),
         el('span', { class: 'player__meta' },
           el('span', { class: 'player__platform' }, icon(p.icon), p.name),
           titleNode()),
         eq('player__eq'));
-      langHooks.push(() => facade.setAttribute('aria-label', musicLabel()));
       facade.addEventListener('click', () => {
         const frame = iframe(info.src, title, info.height ? { height: info.height } : { style: `aspect-ratio:${info.ratio || '16 / 9'};height:auto` });
         frame.removeAttribute('loading');
@@ -794,6 +801,7 @@
       el('button', {
         class: 'shot reveal', type: 'button', style: `--d:${(i % 4) * 80}ms`,
         'aria-label': `${t('gallery.open')}: ${f.texto || 'GISELZ'}`,
+        'data-label': f.texto || 'GISELZ',
         onclick: () => openLightbox(i),
       },
       i % 5 === 2 ? el('span', { class: 'tape-strip', 'aria-hidden': 'true' }) : null,
@@ -961,13 +969,13 @@
       if (!info.src || info.platform === 'instagram') {
         const href = info.link || (info.src ? info.src.replace(/embed\/$/, '') : v.url);
         if (info.platform === 'instagram' && info.src) card.dataset.ig = href;
-        const label = () => `${t('videos.open')} ${p.name}${title ? ': ' + title : ''}`;
+        const label = () => `${t('videos.open')} ${p.name}: ${title || 'reel ' + (i + 1)}`;
         const link = el('a', Object.assign({ class: 'reel__facade', href, 'aria-label': label() }, extAttrs(href)), inner);
         langHooks.push(() => link.setAttribute('aria-label', label()));
         card.append(link);
         return card;
       }
-      const label = () => `${t('videos.play')}${title ? ': ' + title : ''} (${p.name})`;
+      const label = () => `${t('videos.play')}: ${title || i + 1} (${p.name})`;
       const btn = el('button', { class: 'reel__facade', type: 'button', 'aria-label': label() }, inner);
       langHooks.push(() => btn.setAttribute('aria-label', label()));
       btn.addEventListener('click', () => {

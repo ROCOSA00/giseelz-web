@@ -282,6 +282,8 @@ assets/
   presskit/             El presskit en PDF para descargar (GISELZ-presskit.pdf)
   fonts/                Tipografías (Anton, Inter y Permanent Marker, licencia libre)
 robots.txt, sitemap.xml Para Google
+404.html                La página que sale si alguien entra en una dirección que no existe
+vercel.json             Ajustes de Vercel: cabeceras de seguridad y caché de las tipografías (no tocar)
 .nojekyll               Solo se usa si algún día se publica en GitHub Pages (no molesta)
 ```
 
@@ -300,7 +302,9 @@ No hay que configurar nada: todo sale del contenido de `datos.js`. Si alguien ti
 
 ### Detalles técnicos (para quien programe)
 - HTML + CSS + JavaScript sin dependencias ni paso de compilación. Para verla en local basta con un servidor estático (`python3 -m http.server`).
-- Mobile first; fuentes auto-alojadas y precargadas; imágenes con `loading="lazy"`; los reproductores de SoundCloud, Mixcloud, Spotify, YouTube, Instagram y TikTok solo se cargan al pulsar play (fachada), lo que además evita cookies de terceros hasta ese momento.
+- Mobile first; fuentes auto-alojadas y precargadas; imágenes con `loading="lazy"`; los reproductores de SoundCloud, Mixcloud, Spotify, YouTube y TikTok solo se cargan al pulsar play (fachada), lo que además evita cookies de terceros hasta ese momento. Las vistas previas de Instagram se cargan al acercarse a la sección Vídeos (pesan bastante: unos 5 MB entre las cuatro).
 - Respeta `prefers-reduced-motion` (sin animaciones ni efectos de scroll) y el modo ahorro de datos (no carga el vídeo de portada).
 - Efectos de scroll en `assets/js/scroll.js`: un único bucle `requestAnimationFrame` que lee posiciones y escribe solo transform, opacity y variables CSS cuando cambian. Las secciones apiladas usan `position: sticky` con `top` negativo, así que no alargan la página, y las que quedan tapadas del todo se ocultan (`visibility: hidden`) para no pintarlas. Los saltos del menú usan marcas `.stack-mark`, porque la posición de un elemento "pegado" no sirve para calcular a dónde saltar.
-- SEO: título, descripción, Open Graph y Twitter Card, datos estructurados `Person` y `MusicEvent` (este último se genera con las próximas fechas).
+- SEO: título, descripción, Open Graph y Twitter Card, datos estructurados `Person` y `MusicEvent` (este último se genera con las próximas fechas). Al cambiar a inglés también cambian el título de la pestaña y la descripción.
+- `vercel.json`: cabeceras `X-Content-Type-Options`, `X-Frame-Options`, `Referrer-Policy` y `Permissions-Policy`; caché de 1 año para `assets/fonts/` y de 30 días para `assets/js/vendor/`. El resto (fotos, CSS, JS) se revalida en cada visita, para que al sustituir una foto con el mismo nombre se vea enseguida.
+- Auditoría (11/11/2026): Lighthouse móvil 98 / 100 / 100 / 100 y ordenador 100 / 100 / 100 / 100 (rendimiento, accesibilidad, buenas prácticas, SEO); axe-core sin errores; sin desbordes horizontales de 320 a 1920 px.
